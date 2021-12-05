@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Link } from "react-router-dom";
 import CoinTable from "../../components/CoinTable";
 
 
@@ -29,9 +28,7 @@ export default class Home extends React.Component {
 
   render() {
     const { coins } = this.state;
-    const formatDollar = (number, maximumSignificantDigits) =>
-        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'usd', maximumSignificantDigits }).format(number)
-
+    
     return (
 
          <CoinTable coins={coins} />
