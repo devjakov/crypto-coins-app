@@ -1,6 +1,4 @@
-
-import { BrowserRouter as Link, Switch, Route } from "react-router-dom"
-import Coin from "../Coin/index"
+import { BrowserRouter as Router, Link } from "react-router-dom"
 
 const CoinTable = ({ coins }) => {
     const formatDollar = (number, maximumSignificantDigits) =>

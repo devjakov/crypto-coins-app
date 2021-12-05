@@ -1,6 +1,6 @@
 import React from "react";
-import Home from "../src/pages/Home/index"
-import Coin from "../src/components/Coin/index"
+import Home from "./pages/Home/index"
+import Coin from "./pages/Coin/index"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -16,9 +16,6 @@ export default class App extends React.Component {
             <ul>
               <li>
                 <Link to="/">Homepage</Link>
-              </li>
-              <li>
-                <Link to="/coin">Coin</Link>
               </li>
               <li>
                 <Link to="/portfolio">Portfolio</Link>
