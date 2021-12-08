@@ -91,8 +91,8 @@ export default class Coin extends React.Component {
                 {coinDescription}
               </div>
               <div className="coinLinks">
-                  {blockchainSites.map((link) => <a href={link}>{link}</a>)}
-                </div>
+                {blockchainSites.map((link) => <a href={link}>{link}</a>)}
+              </div>
             </div>
           </>
         }

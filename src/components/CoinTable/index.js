@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 const CoinTable = ({ coins }) => {
     const formatDollar = (number, maximumSignificantDigits) =>
         new Intl.NumberFormat('en-US', { style: 'currency', currency: 'usd', maximumSignificantDigits }).format(number)
-        
+
     return (
         <div>
             <table>
@@ -12,7 +12,9 @@ const CoinTable = ({ coins }) => {
                         <th>#</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>1h%</th>
                         <th>24h%</th>
+                        <th>7d%</th>
                         <th>Market Cap</th>
                     </tr>
                 </thead>
@@ -28,7 +30,9 @@ const CoinTable = ({ coins }) => {
                                 </Link>
                             </td>
                             <td>{formatDollar(coin.current_price, 20)}</td>
+                            <td>{coin.price_change_percentage_1h_in_currency.toFixed(2)}%</td>
                             <td>{coin.price_change_percentage_24h.toFixed(2)}%</td>
+                            <td>{coin.price_change_percentage_7d_in_currency.toFixed(2)}%</td>
                             <td>{formatDollar(coin.market_cap, 20)}</td>
                         </tr>
                     )}
