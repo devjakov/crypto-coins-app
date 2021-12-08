@@ -15,7 +15,7 @@ export default class App extends React.Component {
           <nav>
             <ul>
               <li>
-                <Link to="/">Homepage</Link>
+                <Link to="/">Coins</Link>
               </li>
               <li>
                 <Link to="/portfolio">Portfolio</Link>
@@ -25,14 +25,15 @@ export default class App extends React.Component {
 
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <Switch>
+          
+        </div>
+        <Switch>
             <Route path="/portfolio">
               <Portfolio />
             </Route>
             <Route path="/coin/:id" component={Coin} />
             <Route exact path="/" component={Home} />
           </Switch>
-        </div>
       </Router>
     );
   }
