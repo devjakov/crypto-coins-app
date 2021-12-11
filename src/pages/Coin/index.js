@@ -32,8 +32,10 @@ export default class Coin extends React.Component {
 
   render() {
     const { coin, error } = this.state
+    const { currency } = this.props
+
     const checkStatus = !error && coin
-    const formatNumber = (number, maximumSignificantDigits, currency = 'usd') =>
+    const formatNumber = (number, maximumSignificantDigits, currency = "usd") =>
       new Intl.NumberFormat('en-US', { style: 'currency', currency: currency, maximumSignificantDigits }).format(number)
     const formatDate = (date) =>
       new Date(date).toUTCString();
@@ -44,21 +46,19 @@ export default class Coin extends React.Component {
     const homepage = checkStatus && coin.links.homepage[0]
     const coinName = checkStatus && (`${coin.name} (${coin.symbol.toUpperCase()})`)
     const coinSymbol = checkStatus && coin.symbol.toUpperCase()
-    const currentPrice = checkStatus && formatNumber(coin.market_data.current_price.usd, 20)
+    const currentPrice = checkStatus && formatNumber(coin.market_data.current_price[currency], 20, currency)
     const priceChangePercent24h = checkStatus && (coin.market_data.price_change_percentage_24h.toFixed(2) + "%")
-    const athPrice = checkStatus && formatNumber(coin.market_data.ath.usd, 20)
-    const atlPrice = checkStatus && formatNumber(coin.market_data.atl.usd, 20)
-    const athDate = checkStatus && formatDate(coin.market_data.ath_date.usd)
-    const atlDate = checkStatus && formatDate(coin.market_data.atl_date.usd)
-    const marketCap = checkStatus && formatNumber(coin.market_data.market_cap.usd, 20)
-    const fullyDilutedValuation = checkStatus && (coin.market_data.fully_diluted_valuation.usd ? formatNumber(coin.market_data.fully_diluted_valuation.usd, 20) : "--")
-    const totalVolume = checkStatus && formatNumber(coin.market_data.total_volume.usd, 20)
+    const athPrice = checkStatus && formatNumber(coin.market_data.ath[currency], 20, currency)
+    const atlPrice = checkStatus && formatNumber(coin.market_data.atl[currency], 20, currency)
+    const athDate = checkStatus && formatDate(coin.market_data.ath_date[currency])
+    const atlDate = checkStatus && formatDate(coin.market_data.atl_date[currency])
+    const marketCap = checkStatus && formatNumber(coin.market_data.market_cap[currency], 20, currency)
+    const fullyDilutedValuation = checkStatus && (coin.market_data.fully_diluted_valuation[currency] ? formatNumber(coin.market_data.fully_diluted_valuation[currency], 20, currency) : "--")
+    const totalVolume = checkStatus && formatNumber(coin.market_data.total_volume[currency], 20, currency)
     const circulatingSupply = checkStatus && roundNumber(coin.market_data.circulating_supply, 0) + ' ' + coinSymbol
     const totalSupply = checkStatus && (coin.market_data.total_supply ? roundNumber(coin.market_data.total_supply, 0) + ' ' + coinSymbol : "∞")
     const coinDescription = checkStatus && ReactHtmlParser(coin.description.en)
     const blockchainSites = checkStatus && coin.links.blockchain_site.filter((link) => link !== "")
-
-    checkStatus && console.log(blockchainSites)
 
     return (
       <div>
