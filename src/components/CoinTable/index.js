@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 
-const CoinTable = ({ coins }) => {
-    const formatDollar = (number, maximumSignificantDigits) =>
-        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'usd', maximumSignificantDigits }).format(number)
+const CoinTable = ({ coins, currency }) => {
+    const formatDollar = (number, maximumSignificantDigits, currency = "usd") =>
+        new Intl.NumberFormat('en-US', { style: 'currency', currency: currency, maximumSignificantDigits }).format(number)
 
     return (
         <div>
@@ -29,7 +29,7 @@ const CoinTable = ({ coins }) => {
                                     {coin.name} ({coin.symbol.toUpperCase()})
                                 </Link>
                             </td>
-                            <td>{formatDollar(coin.current_price, 20)}</td>
+                            <td>{formatDollar(coin.current_price, 20, currency)}</td>
                             <td>{coin.price_change_percentage_1h_in_currency.toFixed(2)}%</td>
                             <td>{coin.price_change_percentage_24h.toFixed(2)}%</td>
                             <td>{coin.price_change_percentage_7d_in_currency.toFixed(2)}%</td>
