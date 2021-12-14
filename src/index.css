@@ -50,3 +50,10 @@ a {
 table a:hover{
   text-decoration: underline;
 }
+
+.infoUnderNavBar {
+  display: flex;
+  justify-content: space-evenly;
+  width: 70%;
+  margin: auto;
+}
