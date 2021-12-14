@@ -36,7 +36,6 @@ export default class Home extends React.Component {
   render() {
     const { coins } = this.state;
     const { currency } = this.props
-    console.log(currency)
 
     return (
 

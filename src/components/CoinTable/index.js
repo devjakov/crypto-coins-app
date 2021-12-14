@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom"
+import formatNumber from "../../utilities/formatNumber";
 
 const CoinTable = ({ coins, currency }) => {
-    const formatDollar = (number, maximumSignificantDigits, currency = "usd") =>
-        new Intl.NumberFormat('en-US', { style: 'currency', currency: currency, maximumSignificantDigits }).format(number)
 
     return (
         <div>
@@ -29,11 +28,11 @@ const CoinTable = ({ coins, currency }) => {
                                     {coin.name} ({coin.symbol.toUpperCase()})
                                 </Link>
                             </td>
-                            <td>{formatDollar(coin.current_price, 20, currency)}</td>
+                            <td>{formatNumber(coin.current_price, 20, currency)}</td>
                             <td>{coin.price_change_percentage_1h_in_currency.toFixed(2)}%</td>
                             <td>{coin.price_change_percentage_24h.toFixed(2)}%</td>
                             <td>{coin.price_change_percentage_7d_in_currency.toFixed(2)}%</td>
-                            <td>{formatDollar(coin.market_cap, 20)}</td>
+                            <td>{formatNumber(coin.market_cap, 20)}</td>
                         </tr>
                     )}
                 </tbody>

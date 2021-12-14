@@ -39,7 +39,7 @@ export default class App extends React.Component {
     return (
       <Router>
         <div>
-          <NavBar handleCurrency={this.handleCurrency} currencies={currencies} />
+          <NavBar handleCurrency={this.handleCurrency} currency={currency} currencies={currencies} />
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
