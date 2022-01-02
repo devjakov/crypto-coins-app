@@ -25,7 +25,6 @@ class LineChart extends React.Component {
         gradient.addColorStop(0, 'rgba(229, 239, 255, 1)')
         gradient.addColorStop(1, '#FFFFFF')
         this.gradient = gradient
-
     }
 
     render() {
