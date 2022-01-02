@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
     "chart.js": "^3.6.2",
+    "chartjs-plugin-crosshair": "^1.2.0",
+    "lodash.debounce": "^4.0.8",
     "pruned": "^0.1.1",
     "react": "^17.0.2",
     "react-chartjs-2": "^4.0.0",
