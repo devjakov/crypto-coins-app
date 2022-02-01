@@ -2,6 +2,8 @@ import React from "react";
 import Home from "./pages/Home/index"
 import Coin from "./pages/Coin/index"
 import NavBar from "./components/NavBar";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import { Wrapper } from "./styles/Wrapper.styled";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -38,18 +40,22 @@ export default class App extends React.Component {
     const { currencies, currency } = this.state
     return (
       <Router>
-        <div>
+        <GlobalStyle>
+
           <NavBar handleCurrency={this.handleCurrency} currency={currency} currencies={currencies} />
-          {/* A <Switch> looks through its children <Route>s and
+
+          <Wrapper maxWidth={1800}>
+            {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/portfolio">
-              <Portfolio />
-            </Route>
-            <Route path="/coin/:id" render={(props) => <Coin {...props} currency={currency} />} />
-            <Route exact path="/" render={(props) => <Home {...props} currency={currency} />} />
-          </Switch>
-        </div>
+            <Switch>
+              <Route path="/portfolio">
+                <Portfolio />
+              </Route>
+              <Route path="/coin/:id" render={(props) => <Coin {...props} currency={currency} />} />
+              <Route exact path="/" render={(props) => <Home {...props} currency={currency} />} />
+            </Switch>
+          </Wrapper>
+        </GlobalStyle>
       </Router>
     );
   }

@@ -1,6 +1,7 @@
 import React from "react"
 import { Chart as ChartJS } from 'chart.js/auto'
 import { Bar } from 'react-chartjs-2'
+import { ChartContainer } from "../../styles/Chart.styled"
 import formatDate from "../../utilities/formatDate"
 import nFormatter from "../../utilities/nformatter"
 
@@ -13,7 +14,7 @@ const BarChart = ({ data }) => {
 
 
     return (
-        <div className="barChart">
+        <ChartContainer>
             <Bar
                 data={{
                     labels: days,
@@ -29,12 +30,11 @@ const BarChart = ({ data }) => {
                         borderWidth: 1
                     }]
                 }}
-                height={600}
-                width={200}
+
                 options={{
                     responsive: true,
-                    maintainAspectRatio: false,
-                    aspectRatio: 2,
+                    maintainAspectRatio: true,
+                    aspectRatio: (16 / 9),
                     title: {
                         display: false
                     },
@@ -57,7 +57,7 @@ const BarChart = ({ data }) => {
                     }
                 }}
             />
-        </div>
+        </ChartContainer>
     )
 }
 
