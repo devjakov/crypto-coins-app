@@ -6,6 +6,8 @@ import {
     Chart as ChartJS, Interaction
 } from 'chart.js';
 import { CrosshairPlugin, Interpolate } from 'chartjs-plugin-crosshair';
+import { RadioLabel } from "../../styles/coin/radioLabel.styled";
+import { RadioWrapper } from "../../styles/coin/RadioWrapper.styled";
 
 ChartJS.register(CrosshairPlugin);
 Interaction.modes.interpolate = Interpolate
@@ -40,20 +42,8 @@ class CoinLineChart extends React.Component {
 
         return (
             <ChartContainer aspectRatio={aspectRatio}>
-                <label for="bla" style={{ display: "inline-flex" }}>
-                    <input style={{ display: "none" }} id="bla" type="radio" onClick={() => handleClick(1)} />
-                    <div style={{ width: "1rem", height: "1rem", border: "2px solid green", borderRadius: "50%" }}></div>
-                    24h
-                </label>
-
                 {/* make component for buttons, make the radio button look cool, position them, 
                 then later make tooltips callback update in state and format it properly */}
-
-                <button onClick={() => handleClick(7)}>7d</button>
-                <button onClick={() => handleClick(30)}>30d</button>
-                <button onClick={() => handleClick(90)}>90d</button>
-                <button onClick={() => handleClick(180)}>180d</button>
-                <button onClick={() => handleClick("max")}>Max</button>
                 {data && <Line
                     id='line'
                     data={{
@@ -126,8 +116,8 @@ class CoinLineChart extends React.Component {
                                 borderWidth: 1,
                                 callbacks: {
                                     label: function (tooltipItem, data) {
-                                        //console.log(tooltipItem, data)
-                                        return `${currency.toUpperCase()} ${tooltipItem.formattedValue}`
+                                        console.log(tooltipItem, data)
+                                        return `${currency.toUpperCase()} ${tooltipItem.raw}`
                                     },
                                     title: function (e) {
                                         let date = new Date(e[0].label)

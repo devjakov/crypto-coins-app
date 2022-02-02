@@ -84,7 +84,6 @@ class LineChart extends React.Component {
                             }
                         },
                         plugins: {
-
                             legend: {
                                 display: false
                             },
@@ -114,7 +113,6 @@ class LineChart extends React.Component {
                                     }
                                 }
                             },
-
                         },
                         scales: {
                             x: {

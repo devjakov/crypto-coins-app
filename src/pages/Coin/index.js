@@ -22,6 +22,10 @@ import { CoinLink } from "../../styles/coin/coinLink.styled";
 import { CoinLinks } from "../../styles/coin/CoinLinks.styled";
 import CoinLineChart from "../../components/CoinChart"
 import { ChartWrapper } from "../../styles/ChartWrapper.styled";
+import { RadioLabel } from "../../styles/coin/radioLabel.styled";
+import { RadioWrapper } from "../../styles/coin/RadioWrapper.styled";
+import RadioButtons from "../../components/RadioButtons";
+import CurrencyConverter from "../../components/CurrencyConverter";
 
 export default class Coin extends React.Component {
   state = {
@@ -89,6 +93,8 @@ export default class Coin extends React.Component {
     const { currency } = this.props
     const { handleChartDays } = this
 
+    const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
+
     console.log(coin)
 
     const checkStatus = !error && coin && chartData
@@ -152,6 +158,7 @@ export default class Coin extends React.Component {
             </Wrapper>
 
 
+
             <Wrapper maxWidth={1500}>
               <h1 style={{ color: "white", fontWeight: "300", fontSize: "1.5rem", margin: "3rem 0" }}>Description</h1>
               <Description>
@@ -159,15 +166,20 @@ export default class Coin extends React.Component {
                 {coinDescription}
               </Description>
               <CoinLinks>
-                {blockchainSites.map((link, index) => <CoinLink key={index} href={link}>{link.replace(/(^\w+:|^)\/\//, '')}</CoinLink>)}
+                {blockchainSites.map((link, index) =>
+                  <CoinLink key={index} href={link}>
+                    {link.replace(/(^\w+:|^)\/\//, '')}
+                  </CoinLink>)}
               </CoinLinks>
             </Wrapper>
 
-            <Wrapper maxWidth={1800}>
-              <ChartWrapper color={"#1F2128"}>
-                <CoinLineChart aspectRatio={"3"} handleClick={handleChartDays} currency={currency} data={chartData} />
-              </ChartWrapper>
-            </Wrapper>
+            {RadioButtons(radioButtons, handleChartDays)}
+            {CurrencyConverter()}
+
+            <ChartWrapper color={"#1F2128"}>
+              <CoinLineChart aspectRatio={"3"} handleClick={handleChartDays} currency={currency} data={chartData} />
+            </ChartWrapper>
+
 
           </>
         }
