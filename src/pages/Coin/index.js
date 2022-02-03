@@ -174,7 +174,7 @@ export default class Coin extends React.Component {
             </Wrapper>
 
             {RadioButtons(radioButtons, handleChartDays)}
-            {CurrencyConverter()}
+            <CurrencyConverter currency={currency} coin={coin} />
 
             <ChartWrapper color={"#1F2128"}>
               <CoinLineChart aspectRatio={"3"} handleClick={handleChartDays} currency={currency} data={chartData} />

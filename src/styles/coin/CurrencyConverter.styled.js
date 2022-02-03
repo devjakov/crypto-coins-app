@@ -5,8 +5,9 @@ color: white;
 display: flex;
 flex-direction: row;
 justify-content: space-between;
-max-width: 600px;
+max-width: 850px;
 margin:auto;
+padding-top: 2rem;
 
 & p {
     background-color: #06D554;
@@ -21,7 +22,7 @@ margin:auto;
     display: flex;
     height: 2.8rem;
     background-color: #06D554;
-    border-radius: .5rem;
+    border-radius: .5rem .75rem .75rem .5rem;
     width: 40%;
 }
 
