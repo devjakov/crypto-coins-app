@@ -6,48 +6,52 @@ import {
     Chart as ChartJS, Interaction
 } from 'chart.js';
 import { CrosshairPlugin, Interpolate } from 'chartjs-plugin-crosshair';
+import { RadioLabel } from "../../styles/coin/radioLabel.styled";
+import { RadioWrapper } from "../../styles/coin/RadioWrapper.styled";
 
 ChartJS.register(CrosshairPlugin);
 Interaction.modes.interpolate = Interpolate
 
-class LineChart extends React.Component {
+class CoinLineChart extends React.Component {
     gradient = null
 
     componentDidMount() {
+        const { aspectRatio } = this.props
         const canvas = document.getElementById('line')
         const ctx = canvas.getContext('2d')
-        var gradient = ctx.createLinearGradient(0, 0, 0, 800)
-        gradient.addColorStop(0, 'rgba(255, 255, 255, .25)')
-        gradient.addColorStop(.25, 'rgba(0, 255, 95, .25)')
-        gradient.addColorStop(1, 'rgba(25, 27, 31, .21)')
-
+        var gradient = ctx.createLinearGradient(0, 0, 0, (1800 / aspectRatio))
+        gradient.addColorStop(0, 'rgba(255, 255, 255, .35)')
+        gradient.addColorStop(1, 'rgba(200, 205, 205, .05)')
 
         this.gradient = gradient
     }
 
     render() {
-        const { data, handleClick, currency } = this.props
 
-        const dates = data && data.prices.map((el) => formatDate(el[0]))
+        const { data, handleClick, currency, aspectRatio } = this.props
 
-        const prices = data && data.prices.map((el) => el[1].toFixed(2))
+        const dataFiltered = data && data.prices.filter((el) => el[1] !== null)
+        console.log("hello sirdsds", dataFiltered)
+
+        const prices = dataFiltered && dataFiltered.map((el) => el[1] < 1 ? el[1].toFixed(6) : el[1].toFixed(2))
+
+        const dates = dataFiltered && dataFiltered.map((el) => formatDate(el[0]))
+
+        //okay rewrite this so it just splices from original data and GG
+        //okay so basically i know how to filter null from prices but then i have to filter out the unnecessary dates from dates, cheers
 
         return (
-            <ChartContainer>
-                <button onClick={() => handleClick(1)}>24h</button>
-                <button onClick={() => handleClick(7)}>7d</button>
-                <button onClick={() => handleClick(14)}>14d</button>
-                <button onClick={() => handleClick(30)}>30d</button>
-                <button onClick={() => handleClick(90)}>90d</button>
-                <button onClick={() => handleClick(180)}>180d</button>
-                <Line
+            <ChartContainer aspectRatio={aspectRatio}>
+                {/* make component for buttons, make the radio button look cool, position them, 
+                then later make tooltips callback update in state and format it properly */}
+                {data && <Line
                     id='line'
                     data={{
                         labels: dates,
                         datasets: [{
                             fill: true,
                             pointRadius: 0,
-                            pointBorderColor: 'rgb(200, 0, 0)',
+                            pointBorderColor: '#06D554',
                             lineTension: 0.1,
                             label: 'BTC',
                             data: prices,
@@ -55,7 +59,7 @@ class LineChart extends React.Component {
                                 this.gradient,
                             ],
                             borderColor: [
-                                '#00FF5F',
+                                'rgba(255, 255, 255, .25)',
                             ],
                             borderWidth: 0.5
                         }]
@@ -72,7 +76,7 @@ class LineChart extends React.Component {
                         },
                         responsive: true,
                         maintainAspectRatio: true,
-                        aspectRatio: (16 / 9),
+                        aspectRatio: aspectRatio,
                         title: {
                             display: false
                         },
@@ -84,13 +88,14 @@ class LineChart extends React.Component {
                             }
                         },
                         plugins: {
+
                             legend: {
                                 display: false
                             },
                             crosshair: {
                                 line: {
-                                    color: 'green',  // crosshair line color
-                                    width: .25       // crosshair line width
+                                    color: 'rgba(6, 213, 84, .25)',  // crosshair line color
+                                    width: 1       // crosshair line width
                                 },
                                 sync: {
                                     enabled: false,            // enable trace line syncing with other charts
@@ -102,14 +107,21 @@ class LineChart extends React.Component {
                                 },
                             },
                             tooltip: {
+                                backgroundColor: [
+                                    'rgba(25, 27, 31, .5)'
+                                ],
+                                padding: 10,
+                                caretPadding: 20,
+                                borderColor: ["rgba(6, 213, 84, .25)"],
+                                borderWidth: 1,
                                 callbacks: {
                                     label: function (tooltipItem, data) {
                                         console.log(tooltipItem, data)
-                                        return `${currency.toUpperCase()} ${tooltipItem.formattedValue}`
+                                        return `${currency.toUpperCase()} ${tooltipItem.raw}`
                                     },
                                     title: function (e) {
                                         let date = new Date(e[0].label)
-                                        return date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: "numeric" })
+                                        return `${date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: "numeric" })} ${date.toLocaleTimeString('en-US')}`
                                     }
                                 }
                             },
@@ -121,19 +133,20 @@ class LineChart extends React.Component {
                                     drawBorder: false,
                                 },
                                 ticks: {
-
+                                    display: false,
                                     maxTicksLimit: 8,
                                     maxRotation: 0,
                                     minRotation: 0,
                                     callback: function (e) {
                                         let date = new Date(dates[e])
                                         return date.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: "numeric" })
-
                                     }
                                 },
                             },
-
                             y: {
+                                ticks: {
+                                    display: false,
+                                },
 
                                 grid: {
                                     display: false,
@@ -143,10 +156,10 @@ class LineChart extends React.Component {
 
                         },
                     }}
-                />
+                />}
             </ChartContainer>
         )
     }
 }
 
-export default LineChart
+export default CoinLineChart
