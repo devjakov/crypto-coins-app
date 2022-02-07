@@ -19,14 +19,19 @@ class CurrencyConverter extends React.Component {
 
         if (converter) {
             const valueInCurrency = value * currentPrice
-            console.log("i am typing in crypto", value)
             const newValues = [`${formatNumber(valueInCurrency, 20, currency)}`, `${coin.symbol.toUpperCase()} ${value}`]
             this.setState({ values: newValues })
         } else {
             const valueInCrypto = value / currentPrice
-            console.log("i am typing in currency", value)
             const newValues = [`${formatNumber(value, 20, currency)}`, `${coin.symbol.toUpperCase()} ${valueInCrypto}`]
             this.setState({ values: newValues })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { currency } = this.props
+        if (prevProps.currency !== this.props.currency) {
+            this.handleValues(0);
         }
     }
 
@@ -34,8 +39,6 @@ class CurrencyConverter extends React.Component {
         const { currency, coin } = this.props
         const { values } = this.state
         const { handleValues } = this
-
-        console.log(values)
 
         const currentPrice = coin && coin.market_data.current_price[currency]
         return (
@@ -52,7 +55,7 @@ class CurrencyConverter extends React.Component {
                 <div >
                     <p>{coin.symbol.toUpperCase()}</p>
                     <input
-                        type="text"
+                        type="text" P
                         value={values[1]}
                         onChange={(e) => handleValues(Math.abs(e.target.value.replace(/\D/g, '')), 1, currentPrice)}
                         placeholder={`${coin.symbol.toUpperCase()} 1`}
