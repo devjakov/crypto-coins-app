@@ -6,7 +6,7 @@ export const ChartWrapper = styled.div`
     flex-direction: row;
     gap: 2rem;
     justify-content: center;
-    padding: 4rem 0;
+    padding: 3rem 0 4rem;
     align-items: stretch;
     background-color: ${({ color }) => color ? color : "none"};
 

@@ -33,7 +33,7 @@ class CoinLineChart extends React.Component {
         const dataFiltered = data && data.prices.filter((el) => el[1] !== null)
         console.log("hello sirdsds", dataFiltered)
 
-        const prices = dataFiltered && dataFiltered.map((el) => el[1] < 1 ? el[1].toFixed(6) : el[1].toFixed(2))
+        const prices = dataFiltered && dataFiltered.map((el) => el[1] < 1 ? el[1].toFixed(8) : el[1].toFixed(2))
 
         const dates = dataFiltered && dataFiltered.map((el) => formatDate(el[0]))
 

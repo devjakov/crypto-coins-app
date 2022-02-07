@@ -7,7 +7,7 @@ flex-direction: row;
 justify-content: space-between;
 max-width: 850px;
 margin:auto;
-padding-top: 2rem;
+padding-top: 3rem;
 
 & p {
     background-color: #06D554;

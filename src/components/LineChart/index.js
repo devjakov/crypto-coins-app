@@ -34,12 +34,6 @@ class LineChart extends React.Component {
 
         return (
             <ChartContainer>
-                <button onClick={() => handleClick(1)}>24h</button>
-                <button onClick={() => handleClick(7)}>7d</button>
-                <button onClick={() => handleClick(14)}>14d</button>
-                <button onClick={() => handleClick(30)}>30d</button>
-                <button onClick={() => handleClick(90)}>90d</button>
-                <button onClick={() => handleClick(180)}>180d</button>
                 <Line
                     id='line'
                     data={{
@@ -127,7 +121,10 @@ class LineChart extends React.Component {
                                     minRotation: 0,
                                     callback: function (e) {
                                         let date = new Date(dates[e])
-                                        return date.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: "numeric" })
+                                        return date.toLocaleDateString(
+                                            "en-US", {
+                                                year: 'numeric', month: 'short', day: "numeric"
+                                        })
 
                                     }
                                 },
