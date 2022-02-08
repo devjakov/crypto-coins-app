@@ -4,12 +4,13 @@ import { Bar } from 'react-chartjs-2'
 import { ChartContainer } from "../../styles/Chart.styled"
 import formatDate from "../../utilities/formatDate"
 import nFormatter from "../../utilities/nformatter"
+import formatNumber from "../../utilities/formatNumber"
 
-const BarChart = ({ data }) => {
-    console.log(data)
+const BarChart = ({ data, currency }) => {
+
     const dates = data && data.total_volumes.map((el) => formatDate(el[0]))
     const days = data && dates.map((date) => new Date(date).getDate())
-    const volume = data && data.total_volumes.map((el) => parseInt(nFormatter(el[1])))
+    const volume = data && data.total_volumes.map((el) => el[1].toFixed(2))
     console.log(volume)
 
 
@@ -22,16 +23,25 @@ const BarChart = ({ data }) => {
                         label: 'Volume 24h',
                         data: volume,
                         backgroundColor: [
-                            'rgba(255, 206, 86, 1)',
+                            '#2172E5',
                         ],
                         borderColor: [
-                            'rgba(255, 206, 86, 1)',
+                            '#2172E5',
                         ],
-                        borderWidth: 1
+                        borderWidth: 0
                     }]
                 }}
 
                 options={{
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+
+                    hover: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     responsive: true,
                     maintainAspectRatio: true,
                     aspectRatio: (16 / 9),
@@ -46,12 +56,28 @@ const BarChart = ({ data }) => {
                     scales: {
                         x: {
                             grid: {
-                                display: false
-                            }
+                                display: false,
+                                drawBorder: false,
+                            },
+                            ticks: {
+
+                                maxTicksLimit: 9,
+                                maxRotation: 0,
+                                minRotation: 0,
+                                callback: function (e) {
+                                    let date = new Date(dates[e])
+                                    return date.toLocaleDateString(
+                                        "en-US", {
+                                        year: 'numeric', month: 'short', day: "numeric"
+                                    })
+
+                                }
+                            },
                         },
                         y: {
                             grid: {
-                                display: false
+                                display: false,
+                                drawBorder: false,
                             }
                         }
                     }

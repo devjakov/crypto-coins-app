@@ -4,6 +4,7 @@ import CoinTable from "../../components/CoinTable";
 import BarChart from "../../components/BarChart";
 import LineChart from "../../components/LineChart";
 import { ChartWrapper } from "../../styles/ChartWrapper.styled";
+import RadioButtons from "../../components/RadioButtons"
 
 
 export default class Home extends React.Component {
@@ -68,11 +69,14 @@ export default class Home extends React.Component {
     const { currency } = this.props
     const { handleChartDays } = this
 
+    const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
+
     return (
       <>
+        {RadioButtons(radioButtons, handleChartDays)}
         <ChartWrapper>
-          <LineChart handleClick={handleChartDays} currency={currency} data={bitcoinMarketChartData} />
-          <BarChart handleClick={handleChartDays} currency={currency} data={bitcoinMarketChartData} />
+          <LineChart currency={currency} data={bitcoinMarketChartData} />
+          <BarChart currency={currency} data={bitcoinMarketChartData} />
         </ChartWrapper>
         <CoinTable currency={currency} coins={coins} />
       </>
