@@ -41,7 +41,7 @@ class LineChart extends React.Component {
                         datasets: [{
                             fill: true,
                             pointRadius: 0,
-                            pointBorderColor: 'rgb(200, 0, 0)',
+                            pointBorderColor: '#00FF5F',
                             lineTension: 0.1,
                             label: 'BTC',
                             data: prices,
@@ -51,7 +51,7 @@ class LineChart extends React.Component {
                             borderColor: [
                                 '#00FF5F',
                             ],
-                            borderWidth: 0.5
+                            borderWidth: 1.5
                         }]
                     }}
                     options={{
@@ -123,7 +123,7 @@ class LineChart extends React.Component {
                                         let date = new Date(dates[e])
                                         return date.toLocaleDateString(
                                             "en-US", {
-                                                year: 'numeric', month: 'short', day: "numeric"
+                                            year: 'numeric', month: 'short', day: "numeric"
                                         })
 
                                     }

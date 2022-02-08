@@ -20,6 +20,10 @@ const BarChart = ({ data, currency }) => {
                 data={{
                     labels: days,
                     datasets: [{
+                        fill: true,
+                        pointRadius: 0,
+                        pointBorderColor: '#00FF5F',
+                        lineTension: 0.1,
                         label: 'Volume 24h',
                         data: volume,
                         backgroundColor: [
@@ -28,7 +32,7 @@ const BarChart = ({ data, currency }) => {
                         borderColor: [
                             '#2172E5',
                         ],
-                        borderWidth: 0
+                        borderWidth: 0,
                     }]
                 }}
 
@@ -48,10 +52,31 @@ const BarChart = ({ data, currency }) => {
                     title: {
                         display: false
                     },
+                    elements: {
+                        point: {
+                            radius: 6,
+                            hoverRadius: 6,
+                            rotation: 1,
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
-                        }
+                        },
+                        crosshair: {
+                            line: {
+                                color: 'blue',  // crosshair line color
+                                width: .25       // crosshair line width
+                            },
+                            sync: {
+                                enabled: false,            // enable trace line syncing with other charts
+                                group: 1,                 // chart group
+                                suppressTooltips: false   // suppress tooltips when showing a synced tracer
+                            },
+                            zoom: {
+                                enabled: false,                                      // enable zooming
+                            },
+                        },
                     },
                     scales: {
                         x: {

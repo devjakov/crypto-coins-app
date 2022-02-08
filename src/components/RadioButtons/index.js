@@ -14,7 +14,7 @@ const RadioButtons = (buttons, handleClick) => {
                 <RadioLabel for={`"${buttonValue}"`}>
                     <input id={`"${buttonValue}"`} type="radio" name="timeframe" onClick={() => handleClick(buttonValue)} />
                     <div></div>
-                    {buttonValue > 0 ? `${buttonValue}d` : buttonValue[0].toUpperCase() + buttonValue.substring(1)}
+                    {buttonValue === 1 ? `24h` : buttonValue > 0 ? `${buttonValue}d` : buttonValue[0].toUpperCase() + buttonValue.substring(1)}
                 </RadioLabel>
             )}
         </RadioWrapper>
