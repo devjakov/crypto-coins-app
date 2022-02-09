@@ -1,16 +1,22 @@
 import React from "react"
 import { Line } from 'react-chartjs-2'
 import formatDate from "../../utilities/formatDate"
-import { ChartContainer } from "../../styles/Chart.styled";
+import { ChartContainer } from "../../styles/ChartContainer.styled"
 import {
     Chart as ChartJS, Interaction
 } from 'chart.js';
 import { CrosshairPlugin, Interpolate } from 'chartjs-plugin-crosshair';
+import debounce from "lodash.debounce"
+import { functionsIn } from "lodash";
 
 ChartJS.register(CrosshairPlugin);
 Interaction.modes.interpolate = Interpolate
 
 class LineChart extends React.Component {
+    state = {
+        tooltipItems: null
+    }
+
     gradient = null
 
     componentDidMount() {
@@ -28,12 +34,18 @@ class LineChart extends React.Component {
     render() {
         const { data, handleClick, currency } = this.props
 
-        const dates = data && data.prices.map((el) => formatDate(el[0]))
+        const dates = data && data.prices.map((el) => el[0])
 
         const prices = data && data.prices.map((el) => el[1].toFixed(2))
+        const that = this
+        const stateItems = this.state.tooltipItems
 
         return (
             <ChartContainer>
+                <div>
+                    <p>{stateItems && formatDate(stateItems[0])}</p>
+                    <p>{stateItems && stateItems[1]}</p>
+                </div>
                 <Line
                     id='line'
                     data={{
@@ -55,6 +67,22 @@ class LineChart extends React.Component {
                         }]
                     }}
                     options={{
+                        onHover: function (x, y, data, z = that, prevItems = stateItems) {
+                            if (data.tooltip.dataPoints !== undefined) {
+                                const price = data.tooltip.dataPoints[0].formattedValue
+                                const unixDate = parseInt(data.tooltip.dataPoints[0].label)
+                                const tooltipItems = [unixDate, price]
+                                if (prevItems !== typeof (null) && JSON.stringify(prevItems) !== JSON.stringify(tooltipItems)) {
+                                    z.setState({ tooltipItems: tooltipItems })
+                                    console.log(tooltipItems)
+                                }
+                            }
+                            // const price = data.tooltip.dataPoints.formattedValues
+                            // const unixDate = data.tooltip.dataPoints.label
+                            // const tooltipItems = [unixDate, price]
+
+
+                        },
                         interaction: {
                             mode: 'index',
                             intersect: false,
@@ -96,13 +124,20 @@ class LineChart extends React.Component {
                                 },
                             },
                             tooltip: {
+
                                 callbacks: {
-                                    label: function (tooltipItem, data) {
-                                        console.log(tooltipItem, data)
-                                        return `${currency.toUpperCase()} ${tooltipItem.formattedValue}`
+                                    label: function (tooltipItem) {
+                                        let price = tooltipItem.raw
+                                        // let date = tooltipItem.label
+                                        // const tooltipItems = [date, price]
+                                        // if (prevItems !== typeof (null) && JSON.stringify(prevItems) !== JSON.stringify(tooltipItems)) {
+                                        //     console.log(JSON.stringify(prevItems), JSON.stringify(tooltipItems))
+                                        //     x.setState({ tooltipItems: tooltipItems })
+                                        // }
+                                        return price
                                     },
                                     title: function (e) {
-                                        let date = new Date(e[0].label)
+                                        let date = new Date(formatDate(parseInt(e[0].label)))
                                         return date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: "numeric" })
                                     }
                                 }
@@ -115,7 +150,6 @@ class LineChart extends React.Component {
                                     drawBorder: false,
                                 },
                                 ticks: {
-
                                     maxTicksLimit: 8,
                                     maxRotation: 0,
                                     minRotation: 0,

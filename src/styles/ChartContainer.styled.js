@@ -5,18 +5,27 @@ export const ChartContainer = styled.div`
     padding: 0 1rem;
     padding-top: calc(${({ aspectRatio }) => aspectRatio ? `100% / ${aspectRatio}` : "50% / (16/9)"});
     flex: 1;
+    flex-direction: column;
     margin:0;
     border-radius: 1rem;
     position: relative;
     height: 0;
 
+    & div {
+        background-color: green;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+    
+
     & canvas {
         flex: 1;
         background-color: ${({ color }) => color ? color : "none"};
         position: absolute;
-       top: 1rem;
-       left: 1rem;
-       max-width: 98%;
-       max-height: 98%;
+        top: 20%;
+        left: 1rem;
+        max-width: 98%;
+        max-height: 80%;
     }
 `

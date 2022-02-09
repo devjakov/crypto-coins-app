@@ -1,7 +1,7 @@
 import React from "react"
 import { Line } from 'react-chartjs-2'
 import formatDate from "../../utilities/formatDate"
-import { ChartContainer } from "../../styles/Chart.styled";
+import { ChartContainer } from "../../styles/ChartContainer.styled";
 import {
     Chart as ChartJS, Interaction
 } from 'chart.js';

@@ -1,7 +1,7 @@
 import React from "react"
 import { Chart as ChartJS } from 'chart.js/auto'
 import { Bar } from 'react-chartjs-2'
-import { ChartContainer } from "../../styles/Chart.styled"
+import { ChartContainer } from "../../styles/ChartContainer.styled"
 import formatDate from "../../utilities/formatDate"
 import nFormatter from "../../utilities/nformatter"
 import formatNumber from "../../utilities/formatNumber"
