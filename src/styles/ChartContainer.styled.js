@@ -11,14 +11,6 @@ export const ChartContainer = styled.div`
     position: relative;
     height: 0;
 
-    & div {
-        background-color: green;
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-    }
-    
-
     & canvas {
         flex: 1;
         background-color: ${({ color }) => color ? color : "none"};

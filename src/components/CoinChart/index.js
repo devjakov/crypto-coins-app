@@ -31,7 +31,6 @@ class CoinLineChart extends React.Component {
         const { data, handleClick, currency, aspectRatio } = this.props
 
         const dataFiltered = data && data.prices.filter((el) => el[1] !== null)
-        console.log("hello sirdsds", dataFiltered)
 
         const prices = dataFiltered && dataFiltered.map((el) => el[1] < 1 ? el[1].toFixed(8) : el[1].toFixed(2))
 
@@ -116,7 +115,6 @@ class CoinLineChart extends React.Component {
                                 borderWidth: 1,
                                 callbacks: {
                                     label: function (tooltipItem, data) {
-                                        console.log(tooltipItem, data)
                                         return `${currency.toUpperCase()} ${tooltipItem.raw}`
                                     },
                                     title: function (e) {

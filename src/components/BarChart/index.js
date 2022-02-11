@@ -11,7 +11,6 @@ const BarChart = ({ data, currency }) => {
     const dates = data && data.total_volumes.map((el) => formatDate(el[0]))
     const days = data && dates.map((date) => new Date(date).getDate())
     const volume = data && data.total_volumes.map((el) => el[1].toFixed(2))
-    console.log(volume)
 
 
     return (

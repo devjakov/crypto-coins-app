@@ -37,8 +37,6 @@ export default class Home extends React.Component {
       const request = axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`);
       const response = await request;
       const coins = response.data;
-      const sparklines = response.data.sparkline_in_7d;
-      console.log(coins)
 
       this.setState({ coins: coins });
 
