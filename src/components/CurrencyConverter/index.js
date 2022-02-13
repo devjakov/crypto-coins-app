@@ -29,8 +29,6 @@ class CurrencyConverter extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { currency } = this.props
-        console.log("i'm logging currency converter", prevProps)
         if (prevProps.currency !== this.props.currency) {
             this.handleValues(0);
         }

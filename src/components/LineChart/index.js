@@ -79,7 +79,7 @@ class LineChart extends React.Component {
     // }
 
     render() {
-        const { data, handleClick, currency } = this.props
+        const { data, currency } = this.props
         const { handleMouseLeave, handleExternalTooltip } = this
 
         const dates = data && data.prices.map((el) => el[0])
@@ -96,8 +96,12 @@ class LineChart extends React.Component {
         return (
             <ChartContainer onMouseLeave={() => handleMouseLeave(currentDate, currentPrice)} >
                 <ExternalTooltip >
-                    <p>{stateItems && formatDate(stateItems[0])}</p>
+                    <h1>BTC</h1>
                     <p>{stateItems && formatNumber(stateItems[1], 20, currency)}</p>
+                    <p>{stateItems && new Date(stateItems[0]).toLocaleDateString(
+                        "en-US", {
+                        month: "short", day: "numeric", hourCycle: "h24", year: "2-digit", hour: "numeric", minute: "numeric"
+                    })}</p>
                 </ExternalTooltip>
                 <Line
                     onMouseLeave={() => handleMouseLeave(currentDate, currentPrice)}
@@ -224,7 +228,7 @@ class LineChart extends React.Component {
                             },
 
                             y: {
-
+                                display: false,
                                 grid: {
                                     display: false,
                                     drawBorder: false,
