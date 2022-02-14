@@ -38,11 +38,16 @@ class LineChart extends React.Component {
     }
 
     handleExternalTooltip = (e) => {
-        const unixDate = e && parseInt(e?.tooltip.dataPoints[0]?.label)
-        const hoveredPrice = e && e?.tooltip.dataPoints[0]?.raw
+        console.log(e)
+        if (typeof (e) !== `undefined`) {
+            const unixDate = e && parseInt(e?.tooltip.dataPoints[0]?.label)
+            const hoveredPrice = e && e?.tooltip.dataPoints[0]?.raw
 
-        if (this.state.tooltipItems[0] !== unixDate && this.state.tooltipItems[1] !== hoveredPrice)
-            this.setState({ tooltipItems: [unixDate, hoveredPrice] })
+            if (this.state.tooltipItems[0] !== unixDate && this.state.tooltipItems[1] !== hoveredPrice)
+                this.setState({ tooltipItems: [unixDate, hoveredPrice] })
+        } else {
+            console.log("nothing in tool tip")
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
