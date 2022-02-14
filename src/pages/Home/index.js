@@ -11,6 +11,7 @@ export default class Home extends React.Component {
   state = {
     coins: null,
     bitcoinMarketChartData: null,
+    selectedTimeframe: null,
   }
 
   getBitcoinMarketChart = async (currency, days) => {
@@ -27,8 +28,9 @@ export default class Home extends React.Component {
     }
   }
 
-  handleChartDays = (days) => {
+  handleSelectedTimeframe = (days) => {
     const { currency } = this.props
+    this.setState({ selectedTimeframe: days })
     this.getBitcoinMarketChart(currency, days);
   }
 
@@ -48,30 +50,32 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     const { currency } = this.props
+    const { selectedTimeframe } = this.state
     if (!this.state.coins) {
       this.getCoins(currency);
-      this.getBitcoinMarketChart(currency, 1, '');
+      this.getBitcoinMarketChart(currency, selectedTimeframe || 1, '');
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { currency } = this.props
+    const { selectedTimeframe } = this.state
     if (prevProps.currency !== this.props.currency) {
       this.getCoins(currency);
-      this.getBitcoinMarketChart(currency, 1, '')
+      this.getBitcoinMarketChart(currency, selectedTimeframe || 1, '')
     }
   }
 
   render() {
     const { coins, bitcoinMarketChartData } = this.state;
     const { currency } = this.props
-    const { handleChartDays } = this
+    const { handleSelectedTimeframe } = this
 
     const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
 
     return (
       <>
-        {RadioButtons(radioButtons, handleChartDays)}
+        {RadioButtons(radioButtons, handleSelectedTimeframe)}
         <ChartWrapper>
           <LineChart currency={currency} data={bitcoinMarketChartData} />
           <BarChart currency={currency} data={bitcoinMarketChartData} />

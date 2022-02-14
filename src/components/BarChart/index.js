@@ -58,7 +58,7 @@ class BarChart extends React.Component {
             <ChartContainer>
                 <ExternalTooltip >
                     <h1>Volume</h1>
-                    <p>{stateItems && formatNumber(stateItems[1], 20, currency)}</p>
+                    <p>{stateItems && `${formatNumber(null, 20, currency).replace(/[0-9]/g, '')}${nFormatter(stateItems[1], 2)}`}</p>
                     <p>{stateItems && new Date(stateItems[0]).toLocaleDateString(
                         "en-US", {
                         month: "short", day: "numeric", hourCycle: "h24", year: "2-digit", hour: "numeric", minute: "numeric"
@@ -68,10 +68,12 @@ class BarChart extends React.Component {
                     data={{
                         labels: dates,
                         datasets: [{
+                            normalized: true,
+                            spanGaps: true, //for performance
                             fill: true,
                             pointRadius: 0,
                             pointBorderColor: '#00FF5F',
-                            lineTension: 0.1,
+                            lineTension: 0,
                             label: 'Volume 24h',
                             data: volume,
                             backgroundColor: [
@@ -85,6 +87,8 @@ class BarChart extends React.Component {
                     }}
 
                     options={{
+                        spanGaps: true,
+                        animation: false,
                         interaction: {
                             mode: 'index',
                             intersect: false,

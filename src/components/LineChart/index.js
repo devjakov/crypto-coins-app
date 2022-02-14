@@ -109,10 +109,12 @@ class LineChart extends React.Component {
                     data={{
                         labels: dates,
                         datasets: [{
+                            normalized: true,
+                            spanGaps: true, //for performance
                             fill: true,
                             pointRadius: 0,
                             pointBorderColor: '#00FF5F',
-                            lineTension: 0.1,
+                            lineTension: 0,
                             label: 'BTC',
                             data: prices,
                             backgroundColor: [
@@ -145,6 +147,8 @@ class LineChart extends React.Component {
 
 
                         // },
+                        spanGaps: true,
+                        animation: false,
                         interaction: {
                             mode: 'index',
                             intersect: false,
@@ -168,6 +172,7 @@ class LineChart extends React.Component {
                             }
                         },
                         plugins: {
+
                             legend: {
                                 display: false
                             },

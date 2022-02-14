@@ -31,7 +31,8 @@ export default class Coin extends React.Component {
   state = {
     coin: null,
     error: false,
-    chartData: null
+    chartData: null,
+    selectedTimeframe: null
   }
 
   getCoin = async (coinName) => {
@@ -63,35 +64,39 @@ export default class Coin extends React.Component {
     }
   }
 
-  handleChartDays = (days) => {
+  handleSelectedselectedTimeframe = (days) => {
     const { id } = this.props.match.params;
     const { currency } = this.props
+    this.setState({ selectedTimeframe: days })
     this.getCoinMarketChart(id, currency, days);
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { id } = this.props.match.params;
     const { currency } = this.props
+    const { selectedTimeframe } = this.state
+
     if (prevProps.currency !== this.props.currency) {
-      this.getCoinMarketChart(id, currency, 7)
+      this.getCoinMarketChart(id, currency, selectedTimeframe || 7)
     }
   }
 
   componentDidMount() {
     const { id } = this.props.match.params;
     const { currency } = this.props
+    const { selectedTimeframe } = this.state
 
     if (!this.state.coin) {
       console.log("getting the coin!")
       this.getCoin(id);
-      this.getCoinMarketChart(id, currency, 7)
+      this.getCoinMarketChart(id, currency, selectedTimeframe || 7)
     }
   }
 
   render() {
     const { coin, error, chartData } = this.state
     const { currency } = this.props
-    const { handleChartDays } = this
+    const { handleSelectedselectedTimeframe } = this
 
     const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
 
@@ -173,11 +178,11 @@ export default class Coin extends React.Component {
               </CoinLinks>
             </Wrapper>
 
-            {RadioButtons(radioButtons, handleChartDays)}
+            {RadioButtons(radioButtons, handleSelectedselectedTimeframe)}
             <CurrencyConverter currency={currency} coin={coin} />
 
             <ChartWrapper color={"#1F2128"}>
-              <CoinLineChart aspectRatio={"3"} handleClick={handleChartDays} currency={currency} data={chartData} />
+              <CoinLineChart aspectRatio={"3"} handleClick={handleSelectedselectedTimeframe} currency={currency} data={chartData} />
             </ChartWrapper>
 
 
