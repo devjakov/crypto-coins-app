@@ -111,7 +111,7 @@ class LineChart extends React.Component {
                         month: "short", day: "numeric", hourCycle: "h24", year: "2-digit", hour: "numeric", minute: "numeric"
                     })}</p>
                 </ExternalTooltip>
-                <Line
+                {currency && <Line
                     onMouseLeave={() => handleMouseLeave(currentDate, currentPrice)}
                     id='line'
                     data={{
@@ -250,7 +250,7 @@ class LineChart extends React.Component {
 
                         },
                     }}
-                />
+                />}
             </ChartContainer>
         )
     }
