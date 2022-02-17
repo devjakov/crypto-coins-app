@@ -68,22 +68,6 @@ class LineChart extends React.Component {
         }
     }
 
-    // getSnapshotBeforeUpdate(prevProps, prevState) {
-    //     const { currency, data } = this.props
-    //     if (prevProps.currency !== this.state.currency) {
-    //         console.log(prevProps.currency, this.state.currency)
-    //         const dates = data && data.prices.map((el) => el[0])
-    //         const prices = data && data.prices.map((el) => el[1].toFixed(2))
-
-    //         const currentDate = data && dates.at(-1)
-    //         const currentPrice = data && prices.at(-1)
-
-    //         console.log("hello good sirs i am updating")
-    //         console.log(currentDate, currentPrice)
-    //         data && this.setState({ tooltipItems: [currentDate, currentPrice], currency: currency })
-    //     }
-    // }
-
     render() {
         const { data, currency } = this.props
         const { handleMouseLeave, handleExternalTooltip } = this
@@ -97,9 +81,6 @@ class LineChart extends React.Component {
         const currentPrice = data && prices.at(-1)
 
         const stateItems = data && this.state.tooltipItems
-
-        //instead of updating state in charts to update component, i'll just call the component as function each time with new values
-        //and it'll update itself
 
         return (
             <ChartContainer onMouseLeave={() => handleMouseLeave(currentDate, currentPrice)} >
@@ -135,26 +116,6 @@ class LineChart extends React.Component {
                         }]
                     }}
                     options={{
-                        // onHover: function (x, y, data, z = that, prevItems = stateItems) {
-                        //     console.log("onhover is triggered", data, x, y)
-
-                        //     //_dataset.data has numbers but where are the dates..
-                        //     //sort metasets .. data .. point element.. animations might be dates
-
-                        //     if (data.tooltip.dataPoints !== undefined) {
-                        //         const price = data.tooltip.dataPoints[0].raw
-                        //         const unixDate = parseInt(data.tooltip.dataPoints[0].label)
-                        //         const tooltipItems = [unixDate, price]
-                        //         if (prevItems !== typeof (null) && JSON.stringify(prevItems) !== JSON.stringify(tooltipItems)) {
-                        //             z.setState({ tooltipItems: tooltipItems })
-                        //         }
-                        //     }
-                        //     // const price = data.tooltip.dataPoints.formattedValues
-                        //     // const unixDate = data.tooltip.dataPoints.label
-                        //     // const tooltipItems = [unixDate, price]
-
-
-                        // },
                         spanGaps: true,
                         animation: false,
                         interaction: {
@@ -200,23 +161,7 @@ class LineChart extends React.Component {
                             },
                             tooltip: {
                                 enabled: false,
-                                external: handleExternalTooltip,
-                                // callbacks: {
-                                //     label: function (tooltipItem) {
-                                //         let price = tooltipItem.raw
-                                //         // let date = tooltipItem.label
-                                //         // const tooltipItems = [date, price]
-                                //         // if (prevItems !== typeof (null) && JSON.stringify(prevItems) !== JSON.stringify(tooltipItems)) {
-                                //         //     console.log(JSON.stringify(prevItems), JSON.stringify(tooltipItems))
-                                //         //     x.setState({ tooltipItems: tooltipItems })
-                                //         // }
-                                //         return price
-                                //     },
-                                //     title: function (e) {
-                                //         let date = e[0].label
-                                //         return date
-                                //     }
-                                // }
+                                external: data && handleExternalTooltip,
                             },
                         },
                         scales: {
