@@ -53,6 +53,7 @@ class LineChart extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         const { currency, data } = this.props
         const { tooltipItems } = this.state
+        console.log(prevProps.currency, currency)
         if (!tooltipItems || prevProps.currency !== this.state.currency || prevProps.data.prices[0] !== data.prices[0]) {
             console.log(prevProps.currency, this.state.currency)
             const dates = data && data.prices.map((el) => el[0])
@@ -89,6 +90,8 @@ class LineChart extends React.Component {
 
         const dates = data && data.prices.map((el) => el[0])
         const prices = data && data.prices.map((el) => el[1].toFixed(2))
+
+        console.log(dates, prices)
 
         const currentDate = data && dates.at(-1)
         const currentPrice = data && prices.at(-1)
