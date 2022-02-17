@@ -12,9 +12,9 @@ const RadioButtons = (buttons, handleClick) => {
             {buttons.map((buttonValue) =>
 
                 <RadioLabel for={`"${buttonValue}"`}>
-                    <input id={`"${buttonValue}"`} type="radio" name="timeframe" onClick={() => handleClick(buttonValue)} />
+                    <input defaultChecked={buttonValue === 1} id={`"${buttonValue}"`} type="radio" name="timeframe" onClick={() => handleClick(buttonValue)} />
                     <div></div>
-                    {buttonValue > 0 ? `${buttonValue}d` : buttonValue[0].toUpperCase() + buttonValue.substring(1)}
+                    {buttonValue === 1 ? `24h` : buttonValue > 0 ? `${buttonValue}d` : buttonValue[0].toUpperCase() + buttonValue.substring(1)}
                 </RadioLabel>
             )}
         </RadioWrapper>
