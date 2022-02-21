@@ -25,35 +25,38 @@ class LineChart extends React.Component {
     componentDidMount() {
         const canvas = document?.getElementById('line')
         const ctx = canvas?.getContext('2d')
-        var gradient = ctx?.createLinearGradient(0, 0, 0, 800)
-        gradient?.addColorStop(0, 'rgba(255, 255, 255, .25)')
-        gradient?.addColorStop(.25, 'rgba(0, 255, 95, .25)')
-        gradient?.addColorStop(1, 'rgba(25, 27, 31, .21)')
+        var gradient = ctx?.createLinearGradient(0, 0, 0, 370)
+        gradient?.addColorStop(0, 'rgba(0, 255, 95, .25)')
+        gradient?.addColorStop(1, 'rgba(25, 27, 31, 1)')
 
         this.gradient = gradient
     }
 
-    handleMouseLeave = (currentDate, currentPrice) => {
+    handleMouseLeave = debounce((currentDate, currentPrice) => {
         this.setState({ tooltipItems: [currentDate, currentPrice] })
-    }
+    }, 100)
 
     handleExternalTooltip = (e) => {
         console.log(e)
-        if (typeof (e) !== `undefined`) {
-            const unixDate = e && parseInt(e?.tooltip.dataPoints[0]?.label)
-            const hoveredPrice = e && e?.tooltip.dataPoints[0]?.raw
+        try {
+            if (typeof (e) !== `undefined`) {
+                const unixDate = e && parseInt(e?.tooltip.dataPoints[0]?.label)
+                const hoveredPrice = e && e?.tooltip.dataPoints[0]?.raw
 
-            if (this.state.tooltipItems[0] !== unixDate && this.state.tooltipItems[1] !== hoveredPrice)
-                this.setState({ tooltipItems: [unixDate, hoveredPrice] })
-        } else {
-            console.log("nothing in tool tip")
+                if (this.state.tooltipItems[0] !== unixDate && this.state.tooltipItems[1] !== hoveredPrice) {
+                    this.setState({ tooltipItems: [unixDate, hoveredPrice] })
+                }
+            }
+        }
+        catch (e) {
+            console.log("nothing in tool tip", e)
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { currency, data } = this.props
         const { tooltipItems } = this.state
-        console.log(prevProps.currency, currency)
+        console.log(this.gradient)
         if (!tooltipItems || prevProps.currency !== this.state.currency || prevProps.data.prices[0] !== data.prices[0]) {
             console.log(prevProps.currency, this.state.currency)
             const dates = data && data.prices.map((el) => el[0])

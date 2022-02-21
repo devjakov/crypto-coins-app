@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2'
 import { ChartContainer } from "../../styles/ChartContainer.styled"
 import formatDate from "../../utilities/formatDate"
 import nFormatter from "../../utilities/nformatter"
+import debounce from "lodash.debounce"
 import formatNumber from "../../utilities/formatNumber"
 import { ExternalTooltip } from "../../styles/ExternalTooltip.styled"
 
@@ -13,17 +14,27 @@ class BarChart extends React.Component {
         currency: null,
     }
 
-    handleMouseLeave = (currentDate, currentPrice) => {
+    handleMouseLeave = debounce((currentDate, currentPrice) => {
         this.setState({ tooltipItems: [currentDate, currentPrice] })
-    }
+    }, 100)
 
     handleExternalTooltip = (e) => {
-        const unixDate = e && parseInt(e?.tooltip.dataPoints[0]?.label)
-        const hoveredPrice = e && e?.tooltip.dataPoints[0]?.raw
 
-        if (this.state.tooltipItems[0] !== unixDate && this.state.tooltipItems[1] !== hoveredPrice)
-            this.setState({ tooltipItems: [unixDate, hoveredPrice] })
+        try {
+            if (typeof (e) !== `undefined`) {
+                const unixDate = e && parseInt(e?.tooltip.dataPoints[0]?.label)
+                const hoveredPrice = e && e?.tooltip.dataPoints[0]?.raw
+
+                if (this.state.tooltipItems[0] !== unixDate && this.state.tooltipItems[1] !== hoveredPrice) {
+                    this.setState({ tooltipItems: [unixDate, hoveredPrice] })
+                }
+            }
+        }
+        catch (e) {
+            console.log("nothing in tool tip", e)
+        }
     }
+
 
     componentDidUpdate(prevProps, prevState) {
         const { currency, data } = this.props
@@ -52,6 +63,9 @@ class BarChart extends React.Component {
 
         const volume = data && data.total_volumes.map((el) => el[1].toFixed(2))
 
+        const currentDate = data && dates.at(-1)
+        const currentPrice = data && volume.at(-1)
+
         const stateItems = data && this.state.tooltipItems
 
         return (
@@ -65,6 +79,7 @@ class BarChart extends React.Component {
                     })}</p>
                 </ExternalTooltip>
                 <Bar
+                    onMouseLeave={() => handleMouseLeave(currentDate, currentPrice)}
                     data={{
                         labels: dates,
                         datasets: [{
