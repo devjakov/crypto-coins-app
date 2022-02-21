@@ -17,11 +17,12 @@ class CoinLineChart extends React.Component {
 
     componentDidMount() {
         const { aspectRatio } = this.props
-        const canvas = document.getElementById('line')
+        const canvas = document.getElementById('coinChart')
+        console.log(canvas.offsetHeight)
         const ctx = canvas.getContext('2d')
-        var gradient = ctx.createLinearGradient(0, 0, 0, (1800 / aspectRatio))
+        var gradient = ctx.createLinearGradient(0, 0, 0, canvas.offsetHeight)
         gradient.addColorStop(0, 'rgba(255, 255, 255, .35)')
-        gradient.addColorStop(1, 'rgba(200, 205, 205, .05)')
+        gradient.addColorStop(1, 'rgba(31, 33, 40, 1)')
 
         this.gradient = gradient
     }
@@ -36,15 +37,10 @@ class CoinLineChart extends React.Component {
 
         const dates = dataFiltered && dataFiltered.map((el) => formatDate(el[0]))
 
-        //okay rewrite this so it just splices from original data and GG
-        //okay so basically i know how to filter null from prices but then i have to filter out the unnecessary dates from dates, cheers
-
         return (
             <ChartContainer aspectRatio={aspectRatio}>
-                {/* make component for buttons, make the radio button look cool, position them, 
-                then later make tooltips callback update in state and format it properly */}
                 {data && <Line
-                    id='line'
+                    id='coinChart'
                     data={{
                         labels: dates,
                         datasets: [{

@@ -26,6 +26,7 @@ import { RadioLabel } from "../../styles/coin/radioLabel.styled";
 import { RadioWrapper } from "../../styles/coin/RadioWrapper.styled";
 import RadioButtons from "../../components/RadioButtons";
 import CurrencyConverter from "../../components/CurrencyConverter";
+import { StretchVW } from "../../styles/coin/StretchVW.styled";
 
 export default class Coin extends React.Component {
   state = {
@@ -64,7 +65,7 @@ export default class Coin extends React.Component {
     }
   }
 
-  handleSelectedselectedTimeframe = (days) => {
+  handleSelectedTimeframe = (days) => {
     const { id } = this.props.match.params;
     const { currency } = this.props
     this.setState({ selectedTimeframe: days })
@@ -77,7 +78,7 @@ export default class Coin extends React.Component {
     const { selectedTimeframe } = this.state
 
     if (prevProps.currency !== this.props.currency) {
-      this.getCoinMarketChart(id, currency, selectedTimeframe || 7)
+      this.getCoinMarketChart(id, currency, selectedTimeframe || 1)
     }
   }
 
@@ -89,14 +90,14 @@ export default class Coin extends React.Component {
     if (!this.state.coin) {
       console.log("getting the coin!")
       this.getCoin(id);
-      this.getCoinMarketChart(id, currency, selectedTimeframe || 7)
+      this.getCoinMarketChart(id, currency, selectedTimeframe || 1)
     }
   }
 
   render() {
     const { coin, error, chartData } = this.state
     const { currency } = this.props
-    const { handleSelectedselectedTimeframe } = this
+    const { handleSelectedTimeframe } = this
 
     const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
 
@@ -178,13 +179,14 @@ export default class Coin extends React.Component {
               </CoinLinks>
             </Wrapper>
 
-            {RadioButtons(radioButtons, handleSelectedselectedTimeframe)}
+            {RadioButtons(radioButtons, handleSelectedTimeframe)}
             <CurrencyConverter currency={currency} coin={coin} />
 
-            <ChartWrapper color={"#1F2128"}>
-              <CoinLineChart aspectRatio={"3"} handleClick={handleSelectedselectedTimeframe} currency={currency} data={chartData} />
-            </ChartWrapper>
-
+            <StretchVW>
+              <ChartWrapper color={"#1F2128"}>
+                <CoinLineChart aspectRatio={"3"} handleClick={handleSelectedTimeframe} currency={currency} data={chartData} />
+              </ChartWrapper>
+            </StretchVW>
 
           </>
         }

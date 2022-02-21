@@ -10,6 +10,7 @@ export const ChartContainer = styled.div`
     border-radius: 1rem;
     position: relative;
     height: 0;
+    width: 100vw;
 
     & canvas {
         flex: 1;
@@ -17,7 +18,7 @@ export const ChartContainer = styled.div`
         position: absolute;
         top: 20%;
         left: 1rem;
-        max-width: 98%;
+        max-width: 100vw;
         max-height: 80%;
     }
 `
