@@ -8,6 +8,7 @@ justify-content: space-between;
 max-width: 850px;
 margin:auto;
 padding-top: 3rem;
+padding-bottom: 0.5rem;
 
 & p {
     background-color: #06D554;
