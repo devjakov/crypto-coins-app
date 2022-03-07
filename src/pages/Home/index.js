@@ -1,87 +1,53 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { connect, useSelector } from "react-redux"
+import { getBitcoinChart } from "../../store/bitcoinMarketData/bitcoinMarketDataActions"
+import { getCoins } from "../../store/coins/coinsActions";
 import CoinTable from "../../components/CoinTable";
 import BarChart from "../../components/BarChart";
 import LineChart from "../../components/LineChart";
-import { ChartWrapper } from "../../styles/ChartWrapper.styled";
 import RadioButtons from "../../components/RadioButtons"
+import { ChartWrapper } from "../../styles/ChartWrapper.styled";
 
 
-export default class Home extends React.Component {
-  state = {
-    coins: null,
-    bitcoinMarketChartData: null,
-    selectedTimeframe: null,
+export function Home({ currency, getBitcoinChart, getCoins }) {
+  const coins = useSelector(state => state.coins.coins)
+  const bitcoinChartData = useSelector(state => state.btcData.bitcoinMarketData)
+  const [selectedTimeframe, setTimeFrame] = useState(null)
+  const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
+
+  const handleSelectedTimeframe = (days) => {
+    setTimeFrame(days)
+    getBitcoinChart(currency, days);
   }
 
-  getBitcoinMarketChart = async (currency, days) => {
-    try {
-      const request = axios.get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${days}`);
-      const response = await request;
-      const bitcoinMarketChartData = response.data;
-      console.log(bitcoinMarketChartData)
+  useEffect(() => {
+    getCoins(currency);
+    getBitcoinChart(currency, selectedTimeframe || 1);
+  }, [])
 
-      this.setState({ bitcoinMarketChartData: bitcoinMarketChartData });
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  useEffect(() => {
+    getCoins(currency);
+    getBitcoinChart(currency, selectedTimeframe || 1)
+  }, [currency])
 
-  handleSelectedTimeframe = (days) => {
-    const { currency } = this.props
-    this.setState({ selectedTimeframe: days })
-    this.getBitcoinMarketChart(currency, days);
-  }
-
-  getCoins = async (currency) => {
-    try {
-      const request = axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`);
-      const response = await request;
-      const coins = response.data;
-
-      this.setState({ coins: coins });
-
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
-
-  componentDidMount() {
-    const { currency } = this.props
-    const { selectedTimeframe } = this.state
-    if (!this.state.coins) {
-      this.getCoins(currency);
-      this.getBitcoinMarketChart(currency, selectedTimeframe || 1, '');
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { currency } = this.props
-    const { selectedTimeframe } = this.state
-    if (prevProps.currency !== this.props.currency) {
-      this.getCoins(currency);
-      this.getBitcoinMarketChart(currency, selectedTimeframe || 1, '')
-    }
-  }
-
-  render() {
-    const { coins, bitcoinMarketChartData } = this.state;
-    const { currency } = this.props
-    const { handleSelectedTimeframe } = this
-
-    const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
-
-    return (
-      <>
-        {RadioButtons(radioButtons, handleSelectedTimeframe)}
-        <ChartWrapper>
-          <LineChart currency={currency} data={bitcoinMarketChartData} />
-          <BarChart currency={currency} data={bitcoinMarketChartData} />
-        </ChartWrapper>
-        <CoinTable currency={currency} coins={coins} />
-      </>
-    )
-  }
+  return (
+    <>
+      {RadioButtons(radioButtons, handleSelectedTimeframe)}
+      <ChartWrapper>
+        {bitcoinChartData && <LineChart currency={currency} data={bitcoinChartData} />}
+        {bitcoinChartData && <BarChart currency={currency} data={bitcoinChartData} />}
+      </ChartWrapper>
+      <CoinTable currency={currency} coins={coins} />
+    </>
+  )
 }
+
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = {
+  getBitcoinChart,
+  getCoins
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

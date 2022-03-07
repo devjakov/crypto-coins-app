@@ -1,65 +1,52 @@
-import React from "react";
+import { useEffect } from "react";
+import { connect, useSelector } from "react-redux"
 import Home from "./pages/Home/index"
 import Coin from "./pages/Coin/index"
 import NavBar from "./components/NavBar";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Wrapper } from "./styles/Wrapper.styled";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import axios from "axios";
+import { getCurrencies, setCurrency } from "./store/currencies/currencyActions";
 
-export default class App extends React.Component {
-  state = {
-    currencies: null,
-    currency: "usd",
+function App({ getCurrencies, setCurrency }) {
+  const currencies = useSelector(state => state.currencies.currencies)
+  const currency = useSelector(state => state.currencies.currency)
+  const isLoading = useSelector(state => state.currencies.isLoading)
 
+  const handleCurrency = (currency) => {
+    setCurrency(currency)
   }
 
-  getCurrencies = async () => {
-    try {
-      const request = axios.get('https://api.coingecko.com/api/v3/simple/supported_vs_currencies');
-      const response = await request
-      const currencies = response.data.filter((i) => i !== "bits" && i !== "sats" && i !== "link")
-      this.setState({ currencies: currencies });
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  useEffect(() => {
+    getCurrencies()
+  }, [])
 
-  handleCurrency = (currency) => {
-    this.setState({ currency: currency.toLowerCase() });
-  }
-
-  componentDidMount() {
-    if (!this.state.currencies) {
-      this.getCurrencies();
-    }
-  }
-
-  render() {
-    const { currencies, currency } = this.state
-    return (
-      <Router>
-        <GlobalStyle>
-
-          <NavBar handleCurrency={this.handleCurrency} currency={currency} currencies={currencies} />
-
-          <Wrapper maxWidth={1800}>
-            {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-            <Switch>
-              <Route path="/portfolio">
-                <Portfolio />
-              </Route>
-              <Route path="/coin/:id" render={(props) => <Coin {...props} currency={currency} />} />
-              <Route exact path="/" render={(props) => <Home {...props} currency={currency} />} />
-            </Switch>
-          </Wrapper>
-        </GlobalStyle>
-      </Router>
-    );
-  }
+  return (
+    <Router>
+      <GlobalStyle>
+        <NavBar handleCurrency={handleCurrency} currency={currency} currencies={currencies} />
+        <Wrapper maxWidth={1800}>
+          <Switch>
+            <Route path="/portfolio">
+              <Portfolio />
+            </Route>
+            <Route path="/coin/:id" render={(props) => <Coin {...props} currency={currency} />} />
+            <Route exact path="/" render={(props) => <Home {...props} currency={currency} />} />
+          </Switch>
+        </Wrapper>
+      </GlobalStyle>
+    </Router>
+  );
 }
+
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = {
+  getCurrencies,
+  setCurrency
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 function Portfolio() {
   return <h2>This is where the portfolio will be!</h2>;
