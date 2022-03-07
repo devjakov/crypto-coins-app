@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { connect, useSelector } from "react-redux";
+import { getCoin } from "../../store/coin/coinActions";
+import { getCoinMarketData } from "../../store/coinMarketData/coinMarketDataActions";
 import ReactHtmlParser from "react-html-parser"
 import formatDate from "../../utilities/formatDate";
 import roundNumber from "../../utilities/roundNumber";
@@ -28,55 +31,28 @@ import RadioButtons from "../../components/RadioButtons";
 import CurrencyConverter from "../../components/CurrencyConverter";
 import { StretchVW } from "../../styles/coin/StretchVW.styled";
 
-export default function Coin({ match: { params: { id } }, currency }) {
-  const [coin, setCoin] = useState(null)
-  const [error, setError] = useState(false)
-  const [chartData, setChartData] = useState(null)
+export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMarketData }) {
+  const coin = useSelector(state => state.coin.coin)
+  const chartData = useSelector(state => state.coinData.coinMarketData)
   const [selectedTimeFrame, setTimeFrame] = useState(null)
-
-  const getCoin = async (coinName) => {
-    try {
-      const request = axios.get(`https://api.coingecko.com/api/v3/coins/${coinName}?community_data=true`);
-      const response = await request;
-      const coin = response.data
-      setCoin(coin);
-      setError(false);
-    }
-    catch (error) {
-      console.log(error)
-      setError(true);
-    }
-  }
-
-  const getCoinMarketChart = async (coin, currency, days) => {
-    try {
-      const request = axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=${currency}&days=${days}`);
-      const response = await request;
-      const chartData = response.data;
-      setChartData(chartData);
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
 
   const handleSelectedTimeFrame = (days) => {
     setTimeFrame(days)
-    getCoinMarketChart(id, currency, days);
+    getCoinMarketData(id, currency, days);
   }
 
   useEffect(() => {
     getCoin(id);
-    getCoinMarketChart(id, currency, selectedTimeFrame || 1)
+    getCoinMarketData(id, currency, selectedTimeFrame || 1)
   }, [])
 
   useEffect(() => {
-    getCoinMarketChart(id, currency, selectedTimeFrame || 1)
+    getCoinMarketData(id, currency, selectedTimeFrame || 1)
   }, [currency])
 
   const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
 
-  const checkStatus = !error && coin && chartData
+  const checkStatus = coin && chartData
 
   const athPrice = checkStatus && formatNumber(coin.market_data.ath[currency], 20, currency)
   const atlPrice = checkStatus && formatNumber(coin.market_data.atl[currency], 20, currency)
@@ -167,3 +143,11 @@ export default function Coin({ match: { params: { id } }, currency }) {
   );
 }
 
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = {
+  getCoin,
+  getCoinMarketData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Coin)

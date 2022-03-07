@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
+import nFormatter from "../../utilities/nformatter";
+import roundNumber from "../../utilities/roundNumber";
+import axios from "axios";
+import { connect, useSelector } from "react-redux"
+import { getGlobalInfo } from "../../store/globalInfo/globalInfoActions";
 import { StyledLink } from "../../styles/Link.styled";
 import { Nav } from "../../styles/Nav.styled";
 import { NavWrapper } from "../../styles/NavWrapper.styled";
 import { UnorderedList } from "../../styles/list.styled";
-import { Form } from "../../styles/Form.styled";
 import { Search } from "../../styles/Search.styled";
 import { Select } from "../../styles/Select.styled";
 import { Li } from "../../styles/Li.styled";
@@ -12,18 +16,12 @@ import { Container, Progress } from "../../styles/ProgressBar.styled";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { Price } from "../../styles/table/price.styled";
-import axios from "axios";
-import nFormatter from "../../utilities/nformatter";
-import formatNumber from "../../utilities/formatNumber";
-import roundNumber from "../../utilities/roundNumber";
-import { Wrapper } from "../../styles/Wrapper.styled";
 import { Circle } from "../../styles/Circle.styled";
 import BitcoinPNG from "../../assets/bitcoin.png"
 import EthereumPNG from "../../assets/surface1.png"
 
-
-export default function NavBar({ currencies, handleCurrency, currency }) {
-    const [globalInfo, setGlobalInfo] = useState(null)
+export function NavBar({ currencies, handleCurrency, getGlobalInfo }) {
+    const globalInfo = useSelector(state => state.globalInfo.globalInfo)
     const [navBarLinks, setNavBarLinks] = useState([
         { id: "coins", to: "/", selected: false, content: "Coins" },
         { id: "portfolio", to: "/portfolio", selected: false, content: "Portfolio" }
@@ -42,18 +40,6 @@ export default function NavBar({ currencies, handleCurrency, currency }) {
     const btcDominance = globalInfo && globalInfo.market_cap_percentage.btc.toFixed(2)
     const ethDominance = globalInfo && globalInfo.market_cap_percentage.eth.toFixed(2)
 
-    const getGlobalInfo = async () => {
-        try {
-            const request = axios.get(`https://api.coingecko.com/api/v3/global`);
-            const response = await request;
-            const globalInfo = response.data.data;
-            setGlobalInfo(globalInfo);
-        }
-        catch (error) {
-            console.log(error)
-        }
-    }
-
     const handleNavBarLinkSelect = (e) => {
         const { id } = e.target
         const selectedLink = navBarLinks.map((link) => {
@@ -69,7 +55,6 @@ export default function NavBar({ currencies, handleCurrency, currency }) {
         getGlobalInfo();
     }, [])
 
-
     return (
         <>
             <Nav>
@@ -82,10 +67,7 @@ export default function NavBar({ currencies, handleCurrency, currency }) {
                         }
                     </UnorderedList>
                     <UnorderedList>
-
                         <Search type="text" placeholder="Search..." />
-
-
                         <Select onChange={(e) => handleCurrency(e.target.value)}>
                             <option key={defaultCurrency}>{defaultCurrency}</option>
                             {currencies && otherCurrencies.map((currency) =>
@@ -99,9 +81,7 @@ export default function NavBar({ currencies, handleCurrency, currency }) {
             <MarketsInfo>
                 <p>Coins {activeCryptocurrencies}</p>
                 <p>Exchange {exchanges}</p>
-
                 <p><Circle />
-
                     <span>
                         {"$" + nFormatter(marketCap, 2)}
                         <Price price={marketCap24hChange}>
@@ -134,9 +114,16 @@ export default function NavBar({ currencies, handleCurrency, currency }) {
                         <Progress percent={ethDominance} />
                     </Container>
                 </p>
-
             </MarketsInfo>
 
         </>
     )
 }
+
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = {
+    getGlobalInfo,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

@@ -17,12 +17,13 @@ export const Search = styled.input`
     margin: auto;
 
     &:focus{
-        border: 2px solid #707070;
+        outline: 2px solid #707070;
         margin: auto -1px;
     }
 
     &::-webkit-input-placeholder{
         color:white;
+        font-weight: 500;
         opacity: .9;
     }
 `

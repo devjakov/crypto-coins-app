@@ -10,7 +10,6 @@ const RadioButtons = (buttons, handleClick) => {
     return (
         <RadioWrapper>
             {buttons.map((buttonValue) =>
-
                 <RadioLabel for={`"${buttonValue}"`}>
                     <input defaultChecked={buttonValue === 1} id={`"${buttonValue}"`} type="radio" name="timeframe" onClick={() => handleClick(buttonValue)} />
                     <div></div>

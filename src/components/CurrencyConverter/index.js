@@ -1,20 +1,17 @@
-
 import { useState, useEffect } from "react"
 import { CurrencyConverterWrapper } from "../../styles/coin/CurrencyConverter.styled"
 import formatNumber from "../../utilities/formatNumber";
 
-function CurrencyConverter({ currency, coin }) {
+export default function CurrencyConverter({ currency, coin }) {
     const [values, setValues] = useState([])
     const currentPrice = coin && coin.market_data.current_price[currency]
 
     const handleValues = (value, converter, currentPrice) => {
-
         if (value === 0) {
             const clearInputs = ["", ""];
             setValues(clearInputs)
             return
         }
-
         if (converter) {
             const valueInCurrency = value * currentPrice
             const newValues = [`${formatNumber(valueInCurrency, 20, currency)}`, `${coin.symbol.toUpperCase()} ${value}`]
@@ -53,6 +50,3 @@ function CurrencyConverter({ currency, coin }) {
         </CurrencyConverterWrapper>
     )
 }
-
-
-export default CurrencyConverter

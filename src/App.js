@@ -1,34 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { connect, useSelector } from "react-redux"
 import Home from "./pages/Home/index"
 import Coin from "./pages/Coin/index"
 import NavBar from "./components/NavBar";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Wrapper } from "./styles/Wrapper.styled";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import axios from "axios";
+import { getCurrencies, setCurrency } from "./store/currencies/currencyActions";
 
-export default function App() {
-  const [currencies, setCurrencies] = useState(null)
-  const [currency, setCurrency] = useState("usd")
-
-  const getCurrencies = async () => {
-    try {
-      const request = axios.get('https://api.coingecko.com/api/v3/simple/supported_vs_currencies');
-      const response = await request
-      const currencies = response.data.filter((i) => i !== "bits" && i !== "sats" && i !== "link")
-      setCurrencies(currencies);
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+function App({ getCurrencies, setCurrency }) {
+  const currencies = useSelector(state => state.currencies.currencies)
+  const currency = useSelector(state => state.currencies.currency)
+  const isLoading = useSelector(state => state.currencies.isLoading)
 
   const handleCurrency = (currency) => {
-    setCurrency(currency.toLowerCase());
+    setCurrency(currency)
   }
 
   useEffect(() => {
-    getCurrencies();
+    getCurrencies()
   }, [])
 
   return (
@@ -49,6 +39,14 @@ export default function App() {
   );
 }
 
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = {
+  getCurrencies,
+  setCurrency
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 function Portfolio() {
   return <h2>This is where the portfolio will be!</h2>;
