@@ -1,0 +1,1 @@
+export const backendBase = 'https://crypto-app-server.herokuapp.com/coins'

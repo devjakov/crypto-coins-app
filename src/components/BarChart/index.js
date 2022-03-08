@@ -39,7 +39,7 @@ export default function BarChart({ currency, data }) {
             }
         }
         catch (e) {
-            console.log("nothing in tool tip", e)
+            console.log("nothing in tool tip")
         }
     }
 

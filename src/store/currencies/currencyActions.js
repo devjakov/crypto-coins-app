@@ -24,7 +24,6 @@ export const getCurrencies = () => async (dispatch) => {
 }
 
 export const setCurrency = (currency) => {
-    console.log("im dispatching ahh")
     return {
         type: SET_CURRENCY,
         payload: currency.toLowerCase()

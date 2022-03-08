@@ -9,9 +9,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { getCurrencies, setCurrency } from "./store/currencies/currencyActions";
 
 function App({ getCurrencies, setCurrency }) {
-  const currencies = useSelector(state => state.currencies.currencies)
-  const currency = useSelector(state => state.currencies.currency)
-  const isLoading = useSelector(state => state.currencies.isLoading)
+  const { currencies, currency, isLoading } = useSelector(state => state.currencies)
 
   const handleCurrency = (currency) => {
     setCurrency(currency)

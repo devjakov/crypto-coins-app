@@ -20,7 +20,7 @@ export default function globalInfoReducer(state = initialState, action) {
             return {
                 ...state,
                 globalInfo: action.payload,
-                isLoading: true,
+                isLoading: false,
                 error: false,
             }
         case FETCH_GLOBALINFO_ERROR:

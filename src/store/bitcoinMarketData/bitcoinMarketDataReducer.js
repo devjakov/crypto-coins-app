@@ -20,7 +20,7 @@ export default function bitcoinMarketDataReducer(state = initialState, action) {
             return {
                 ...state,
                 bitcoinMarketData: action.payload,
-                isLoading: true,
+                isLoading: false,
                 error: false,
             }
         case FETCH_BTCDATA_ERROR:

@@ -6,4 +6,5 @@ flex-direction: row;
 gap: 1rem;
 list-style-type: none;
 padding: 0;
+position:relative;
 `

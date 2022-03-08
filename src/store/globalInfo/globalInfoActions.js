@@ -3,7 +3,6 @@ import { base } from "../../utilities/coingeckoBaseAddress/coingeckoBaseAddress"
 import { FETCH_GLOBALINFO_ERROR, FETCH_GLOBALINFO_PENDING, FETCH_GLOBALINFO_SUCCESS } from "./globalInfoReducer";
 
 export const getGlobalInfo = () => async (dispatch) => {
-    console.log("this is running")
     dispatch({
         type: FETCH_GLOBALINFO_PENDING
     })
