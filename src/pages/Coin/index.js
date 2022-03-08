@@ -47,10 +47,17 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
   }, [])
 
   useEffect(() => {
+    getCoin(id);
+    getCoinMarketData(id, currency, selectedTimeFrame || 1)
+  }, [id])
+
+  useEffect(() => {
     getCoinMarketData(id, currency, selectedTimeFrame || 1)
   }, [currency])
 
   const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
+
+  console.log(coin)
 
   const checkStatus = coin && chartData
 

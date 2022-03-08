@@ -11,7 +11,7 @@ import { ChartWrapper } from "../../styles/ChartWrapper.styled";
 
 
 export function Home({ currency, getBitcoinChart, getCoins }) {
-  const coins = useSelector(state => state.coins.coins)
+  const { coins } = useSelector(state => state.coins)
   const bitcoinChartData = useSelector(state => state.btcData.bitcoinMarketData)
   const [selectedTimeframe, setTimeFrame] = useState(null)
   const radioButtons = [1, 7, 14, 30, 90, 180, "max"];

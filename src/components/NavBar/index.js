@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import nFormatter from "../../utilities/nformatter";
 import roundNumber from "../../utilities/roundNumber";
-import axios from "axios";
 import { connect, useSelector } from "react-redux"
 import { getGlobalInfo } from "../../store/globalInfo/globalInfoActions";
+import { getSearchResult } from "../../store/searchResult/searchResultActions";
 import { StyledLink } from "../../styles/Link.styled";
 import { Nav } from "../../styles/Nav.styled";
 import { NavWrapper } from "../../styles/NavWrapper.styled";
@@ -19,9 +19,10 @@ import { Price } from "../../styles/table/price.styled";
 import { Circle } from "../../styles/Circle.styled";
 import BitcoinPNG from "../../assets/bitcoin.png"
 import EthereumPNG from "../../assets/surface1.png"
+import { GlobalSearch } from "../GlobalSearch";
 
-export function NavBar({ currencies, handleCurrency, getGlobalInfo }) {
-    const globalInfo = useSelector(state => state.globalInfo.globalInfo)
+export function NavBar({ currencies, handleCurrency, getGlobalInfo, getSearchResult }) {
+    const { globalInfo } = useSelector(state => state.globalInfo)
     const [navBarLinks, setNavBarLinks] = useState([
         { id: "coins", to: "/", selected: false, content: "Coins" },
         { id: "portfolio", to: "/portfolio", selected: false, content: "Portfolio" }
@@ -67,7 +68,7 @@ export function NavBar({ currencies, handleCurrency, getGlobalInfo }) {
                         }
                     </UnorderedList>
                     <UnorderedList>
-                        <Search type="text" placeholder="Search..." />
+                        <GlobalSearch getSearchResult={getSearchResult} />
                         <Select onChange={(e) => handleCurrency(e.target.value)}>
                             <option key={defaultCurrency}>{defaultCurrency}</option>
                             {currencies && otherCurrencies.map((currency) =>
@@ -124,6 +125,7 @@ const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = {
     getGlobalInfo,
+    getSearchResult
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

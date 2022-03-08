@@ -19,7 +19,7 @@ export default function coinReducer(state = initialState, action) {
             return {
                 ...state,
                 coin: action.payload,
-                isLoading: true,
+                isLoading: false,
                 error: false,
             }
         case FETCH_COIN_ERROR:

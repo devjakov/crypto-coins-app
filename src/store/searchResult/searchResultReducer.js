@@ -1,28 +1,29 @@
 const initialState = {
-    coins: null,
+    searchResult: null,
     isLoading: false,
-    error: false
+    error: false,
 }
 
-export const FETCH_COINS_SUCCESS = 'FETCH_COINS_SUCCESS'
-export const FETCH_COINS_PENDING = 'FETCH_COINS_PENDING'
-export const FETCH_COINS_ERROR = 'FETCH_COINS_ERROR'
+export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS'
+export const FETCH_SEARCH_PENDING = 'FETCH_SEARCH_PENDING'
+export const FETCH_SEARCH_ERROR = 'FETCH_SEARCH_ERROR'
 
-export default function coinsReducer(state = initialState, action) {
+
+export default function searchResultReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_COINS_PENDING:
+        case FETCH_SEARCH_PENDING:
             return {
                 ...state,
                 isLoading: true,
             }
-        case FETCH_COINS_SUCCESS:
+        case FETCH_SEARCH_SUCCESS:
             return {
                 ...state,
-                coins: action.payload,
+                searchResult: action.payload,
                 isLoading: false,
                 error: false,
             }
-        case FETCH_COINS_ERROR:
+        case FETCH_SEARCH_ERROR:
             return {
                 ...state,
                 isLoading: true,

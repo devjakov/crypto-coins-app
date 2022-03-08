@@ -1,4 +1,4 @@
-const roundNumber = (number, decimalPlaces) => number.toLocaleString("en", {
+const roundNumber = (number, decimalPlaces) => number?.toLocaleString("en", {
     maximumFractionDigits: decimalPlaces,
 });
 

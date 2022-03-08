@@ -15,10 +15,12 @@ export const Search = styled.input`
     width: 100%;
     flex: 1;
     margin: auto;
+    
 
     &:focus{
         outline: 2px solid #707070;
         margin: auto -1px;
+        z-index: 5;
     }
 
     &::-webkit-input-placeholder{
