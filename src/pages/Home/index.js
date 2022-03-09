@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { connect, useSelector } from "react-redux"
 import { getBitcoinChart } from "../../store/bitcoinMarketData/bitcoinMarketDataActions"
 import { getCoins } from "../../store/coins/coinsActions";
@@ -8,7 +7,7 @@ import BarChart from "../../components/BarChart";
 import LineChart from "../../components/LineChart";
 import RadioButtons from "../../components/RadioButtons"
 import { ChartWrapper } from "../../styles/ChartWrapper.styled";
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export function Home({ currency, getBitcoinChart, getCoins }) {
   const { coins } = useSelector(state => state.coins)
@@ -38,7 +37,15 @@ export function Home({ currency, getBitcoinChart, getCoins }) {
         {bitcoinChartData && <LineChart currency={currency} data={bitcoinChartData} />}
         {bitcoinChartData && <BarChart currency={currency} data={bitcoinChartData} />}
       </ChartWrapper>
-      <CoinTable currency={currency} coins={coins} />
+      <InfiniteScroll
+        dataLength={coins && coins.length}
+        next={() => getCoins(currency, coins.length + 20)}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
+      >
+        <CoinTable currency={currency} coins={coins} />
+      </InfiniteScroll>
+
     </>
   )
 }
