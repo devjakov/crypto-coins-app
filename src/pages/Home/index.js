@@ -21,10 +21,10 @@ export function Home({ currency, getBitcoinChart, getCoins }) {
     getBitcoinChart(currency, days);
   }
 
-  useEffect(() => {
-    getCoins(currency);
-    getBitcoinChart(currency, selectedTimeframe || 1);
-  }, [])
+  // useEffect(() => {
+  //   getCoins(currency);
+  //   getBitcoinChart(currency, selectedTimeframe || 1);
+  // }, [])
 
   useEffect(() => {
     getCoins(currency);

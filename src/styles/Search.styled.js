@@ -19,7 +19,7 @@ export const Search = styled.input`
 
     &:focus{
         outline: 2px solid #707070;
-        margin: auto -1px;
+        margin: auto;
         z-index: 5;
     }
 
