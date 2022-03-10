@@ -5,6 +5,7 @@ import { useMemo, useEffect, useState } from "react";
 import { Search } from "../../styles/Search.styled"
 import { SearchDropdown } from "../../styles/SearchDropdown.styled";
 import { CoinLink } from "../../styles/table/CoinLink.styled";
+import { SearchResult } from "../../styles/SearchResult.styled";
 
 
 export const GlobalSearch = ({ getSearchResult }) => {
@@ -12,10 +13,13 @@ export const GlobalSearch = ({ getSearchResult }) => {
     const [searchTerm, setSearchTerm] = useState("")
     const [focused, setFocused] = useState(false)
 
+    const searchingAndFocused = searchResult && focused && searchTerm !== ""
+    const options = { type: "text", placeholder: "Search..." }
+
     console.log("this is the search result", searchResult)
 
     const onFocus = () => setFocused(true)
-    const onBlur = debounce(() => setFocused(false), 200)
+    const onBlur = debounce(() => setFocused(false), 100)
 
     const handleSearch = (e) => {
         const inputValue = e.target.value
@@ -37,20 +41,21 @@ export const GlobalSearch = ({ getSearchResult }) => {
 
     return (
         <>
-            <Search onChange={debouncedResults} onFocus={onFocus} onBlur={onBlur} type="text" placeholder="Search..." />
+            <Search onChange={debouncedResults} onFocus={onFocus} onBlur={onBlur} {...options} />
             {searchTerm !== "" ?
                 <SearchDropdown style={{ position: "absolute" }}>
-                    {isLoading ? "Loading..."
+                    {isLoading ? <p>Loading...</p>
                         :
-                        searchResult && focused && searchResult.map((coin) =>
-                            <div key={coin.id}>
-                                <CoinLink to={`/coin/${coin.id}`}>
-                                    {coin.name}
+                        searchingAndFocused && searchResult.map(({ id, name, thumb }) =>
+                            <SearchResult key={id}>
+                                <CoinLink to={`/coin/${id}`}>
+                                    <img src={thumb} />
+                                    {name}
                                 </CoinLink>
-                            </div>
-                        )}</SearchDropdown>
+                            </SearchResult>)}
+                </SearchDropdown>
                 :
-                undefined}
+                null}
 
         </>
     )

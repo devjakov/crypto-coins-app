@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { connect, useSelector } from "react-redux"
 import Home from "./pages/Home/index"
 import Coin from "./pages/Coin/index"
+import Portfolio from "./pages/Portfolio";
 import NavBar from "./components/NavBar";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Wrapper } from "./styles/Wrapper.styled";
@@ -45,7 +46,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
-
-function Portfolio() {
-  return <h2>This is where the portfolio will be!</h2>;
-}

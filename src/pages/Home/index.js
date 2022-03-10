@@ -32,15 +32,15 @@ export function Home({ currency, getBitcoinChart, getCoins }) {
 
   return (
     <>
-      {RadioButtons(radioButtons, handleSelectedTimeframe)}
+      <RadioButtons radioButtons={radioButtons} handleSelectedTimeframe={handleSelectedTimeframe} />
       <ChartWrapper>
         {bitcoinChartData && <LineChart currency={currency} data={bitcoinChartData} />}
         {bitcoinChartData && <BarChart currency={currency} data={bitcoinChartData} />}
       </ChartWrapper>
       <InfiniteScroll
         dataLength={coins && coins.length}
-        next={() => getCoins(currency, coins.length + 20)}
-        hasMore={true}
+        next={() => getCoins(currency, coins.length + 40)}
+        hasMore={coins && coins.length >= 100 ? false : true}
         loader={<h4>Loading...</h4>}
       >
         <CoinTable currency={currency} coins={coins} />
