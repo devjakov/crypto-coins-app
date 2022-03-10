@@ -44,11 +44,6 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
   useEffect(() => {
     getCoin(id);
     getCoinMarketData(id, currency, selectedTimeFrame || 1)
-  }, [])
-
-  useEffect(() => {
-    getCoin(id);
-    getCoinMarketData(id, currency, selectedTimeFrame || 1)
   }, [id])
 
   useEffect(() => {
@@ -80,7 +75,7 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
 
   return (
     <>
-      {checkStatus && chartData &&
+      {checkStatus &&
         <>
           <Wrapper maxWidth={1500}>
             <h1 style={{ color: "white", fontWeight: "300", fontSize: "1.5rem", margin: "3rem 0" }}>Your summary</h1>
@@ -135,7 +130,7 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
             </CoinLinks>
           </Wrapper>
 
-          {RadioButtons(radioButtons, handleSelectedTimeFrame)}
+          <RadioButtons radioButtons={radioButtons} handleSelectedTimeframe={handleSelectedTimeFrame} />
           <CurrencyConverter currency={currency} coin={coin} />
 
           <StretchVW>

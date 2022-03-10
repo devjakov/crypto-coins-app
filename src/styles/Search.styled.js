@@ -6,10 +6,9 @@ export const Search = styled.input`
     font-size: .9rem;
     color: white;
     background-color: #2C2F36;
+    border:none;
     border-radius: .5rem;
     padding-left: 2rem;
-    border: 1px solid #191B1F;
-    outline: none;
     min-width: 100px;
     max-width: 730px;
     width: 100%;
