@@ -1,5 +1,5 @@
 import debounce from "lodash.debounce"
-import React, { useRef } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useMemo, useEffect, useState } from "react";
 import { Search } from "../../styles/Search.styled"
@@ -15,8 +15,6 @@ export const GlobalSearch = ({ getSearchResult }) => {
 
     const searchingAndFocused = searchResult && focused && searchTerm !== ""
     const options = { type: "text", placeholder: "Search..." }
-
-    console.log("this is the search result", searchResult)
 
     const onFocus = () => setFocused(true)
     const onBlur = debounce(() => setFocused(false), 100)
@@ -49,7 +47,7 @@ export const GlobalSearch = ({ getSearchResult }) => {
                         searchingAndFocused && searchResult.map(({ id, name, thumb }) =>
                             <SearchResult key={id}>
                                 <CoinLink to={`/coin/${id}`}>
-                                    <img src={thumb} />
+                                    <img src={thumb} alt="coin logo" />
                                     {name}
                                 </CoinLink>
                             </SearchResult>)}

@@ -8,7 +8,6 @@ import { StyledLink } from "../../styles/Link.styled";
 import { Nav } from "../../styles/Nav.styled";
 import { NavWrapper } from "../../styles/NavWrapper.styled";
 import { UnorderedList } from "../../styles/list.styled";
-import { Search } from "../../styles/Search.styled";
 import { Select } from "../../styles/Select.styled";
 import { Li } from "../../styles/Li.styled";
 import { MarketsInfo } from "../../styles/MarketsInfo.styled";
@@ -44,8 +43,8 @@ export function NavBar({ currencies, handleCurrency, getGlobalInfo, getSearchRes
     const handleNavBarLinkSelect = (e) => {
         const { id } = e.target
         const selectedLink = navBarLinks.map((link) => {
-            if (link.id === id && link.selected === false || link.id !== id && link.selected === true) {
-                return { id: link.id, to: link.to, selected: !link.selected, content: link.content }
+            if ((link.id === id && link.selected === false) || (link.id !== id && link.selected === true)) {
+                return { ...link, selected: !link.selected }
             }
             return link
         })
@@ -101,7 +100,7 @@ export function NavBar({ currencies, handleCurrency, getGlobalInfo, getSearchRes
                 </p>
 
                 <p>
-                    <img src={BitcoinPNG} />
+                    <img src={BitcoinPNG} alt="bitcoin logo" />
                     {btcDominance + "%"}
                     <Container width={45}>
                         <Progress percent={btcDominance} />
@@ -109,7 +108,7 @@ export function NavBar({ currencies, handleCurrency, getGlobalInfo, getSearchRes
                 </p>
 
                 <p>
-                    <img src={EthereumPNG} />
+                    <img src={EthereumPNG} alt="ethereum logo" />
                     {ethDominance + "%"}
                     <Container width={45}>
                         <Progress percent={ethDominance} />

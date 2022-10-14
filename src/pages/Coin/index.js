@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { connect, useSelector } from "react-redux";
 import { getCoin } from "../../store/coin/coinActions";
 import { getCoinMarketData } from "../../store/coinMarketData/coinMarketDataActions";
@@ -10,7 +9,7 @@ import formatNumber from "../../utilities/formatNumber";
 import { Wrapper } from "../../styles/Wrapper.styled";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp, faLayerGroup, faLink, faCopy, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretUp, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 import { Circle } from "../../styles/Circle.styled";
 
 import { CoinImageWrapper } from "../../styles/coin/coinImageWrapper.styled";
@@ -21,19 +20,18 @@ import { PriceChangePercentage } from "../../styles/coin/PriceChangePercentage.s
 import { CoinMetrics } from "../../styles/coin/CoinMetrics.styled";
 import { YourSummary } from "../../styles/coin/yourSummary.styled";
 import { Description } from "../../styles/coin/Description.styled";
+import { Title } from "../../styles/Title.styled";
 import { CoinLink } from "../../styles/coin/coinLink.styled";
 import { CoinLinks } from "../../styles/coin/CoinLinks.styled";
 import CoinLineChart from "../../components/CoinChart"
 import { ChartWrapper } from "../../styles/ChartWrapper.styled";
-import { RadioLabel } from "../../styles/coin/radioLabel.styled";
-import { RadioWrapper } from "../../styles/coin/RadioWrapper.styled";
 import RadioButtons from "../../components/RadioButtons";
 import CurrencyConverter from "../../components/CurrencyConverter";
 import { StretchVW } from "../../styles/coin/StretchVW.styled";
 
 export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMarketData }) {
-  const coin = useSelector(state => state.coin.coin)
-  const chartData = useSelector(state => state.coinData.coinMarketData)
+  const { coin } = useSelector(state => state.coin)
+  const { coinMarketData } = useSelector(state => state.coinData)
   const [selectedTimeFrame, setTimeFrame] = useState(null)
 
   const handleSelectedTimeFrame = (days) => {
@@ -52,9 +50,7 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
 
   const radioButtons = [1, 7, 14, 30, 90, 180, "max"];
 
-  console.log(coin)
-
-  const checkStatus = coin && chartData
+  const checkStatus = coin && coinMarketData
 
   const athPrice = checkStatus && formatNumber(coin.market_data.ath[currency], 20, currency)
   const atlPrice = checkStatus && formatNumber(coin.market_data.atl[currency], 20, currency)
@@ -78,7 +74,7 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
       {checkStatus &&
         <>
           <Wrapper maxWidth={1500}>
-            <h1 style={{ color: "white", fontWeight: "300", fontSize: "1.5rem", margin: "3rem 0" }}>Your summary</h1>
+            <Title>Your summary</Title>
             <YourSummary>
               <CoinLinkAndImage>
                 <CoinImageWrapper>
@@ -117,7 +113,7 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
 
 
           <Wrapper maxWidth={1500}>
-            <h1 style={{ color: "white", fontWeight: "300", fontSize: "1.5rem", margin: "3rem 0" }}>Description</h1>
+            <Title>Description</Title>
             <Description>
               <FontAwesomeIcon icon={faLayerGroup} />
               {coinDescription}
@@ -135,7 +131,7 @@ export function Coin({ match: { params: { id } }, currency, getCoin, getCoinMark
 
           <StretchVW>
             <ChartWrapper color={"#1F2128"}>
-              <CoinLineChart aspectRatio={"3"} handleClick={handleSelectedTimeFrame} currency={currency} data={chartData} />
+              <CoinLineChart aspectRatio={"3"} handleClick={handleSelectedTimeFrame} currency={currency} data={coinMarketData} />
             </ChartWrapper>
           </StretchVW>
 

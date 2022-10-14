@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { Line } from 'react-chartjs-2'
-import formatDate from "../../utilities/formatDate"
 import formatNumber from "../../utilities/formatNumber"
 import { ChartContainer } from "../../styles/ChartContainer.styled"
 import {

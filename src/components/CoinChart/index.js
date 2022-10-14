@@ -6,8 +6,6 @@ import {
     Chart as ChartJS, Interaction
 } from 'chart.js';
 import { CrosshairPlugin, Interpolate } from 'chartjs-plugin-crosshair';
-import { RadioLabel } from "../../styles/coin/radioLabel.styled";
-import { RadioWrapper } from "../../styles/coin/RadioWrapper.styled";
 
 ChartJS.register(CrosshairPlugin);
 Interaction.modes.interpolate = Interpolate
