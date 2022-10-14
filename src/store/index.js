@@ -6,10 +6,12 @@ import btcData from "./bitcoinMarketData/bitcoinMarketDataReducer"
 import coinData from "./coinMarketData/coinMarketDataReducer"
 import coins from "./coins/coinsReducer"
 import coin from "./coin/coinReducer"
+import portfolioSelectedCoin from "./portfolioSelectedCoin/portfolioSelectedCoinReducer"
 import searchNavBar from "./searchResult/searchResultReducer"
+import searchPortfolio from "./portfolioSearchResult/portfolioSearchResultReducer"
 
 const reducers = combineReducers({
-    currencies, globalInfo, btcData, coinData, coins, coin, searchNavBar
+    currencies, globalInfo, btcData, coinData, coins, coin, searchNavBar, searchPortfolio, portfolioSelectedCoin
 })
 
 const composeEnhancers =

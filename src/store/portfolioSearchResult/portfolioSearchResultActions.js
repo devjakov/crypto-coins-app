@@ -1,24 +1,26 @@
 import axios from "axios"
 import { backendBase } from "../../utilities/backendBaseAddress/backendBaseAddress";
-import { FETCH_SEARCH_PENDING, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_ERROR } from "./searchResultReducer";
+import { FETCH_PORTFOLIOSEARCH_PENDING, FETCH_PORTFOLIOSEARCH_SUCCESS, FETCH_PORTFOLIOSEARCH_ERROR } from "./portfolioSearchResultReducer";
 
-export const getSearchResult = (searchTerm) => async (dispatch) => {
+const getPortfolioSearchResult = (searchTerm) => async (dispatch) => {
     dispatch({
-        type: FETCH_SEARCH_PENDING
+        type: FETCH_PORTFOLIOSEARCH_PENDING
     })
     try {
         const request = axios.get(`${backendBase}/${searchTerm}`);
         const result = await request
         const searchResult = result.data
         dispatch({
-            type: FETCH_SEARCH_SUCCESS,
+            type: FETCH_PORTFOLIOSEARCH_SUCCESS,
             payload: searchResult
         })
     }
     catch (error) {
         console.log(error)
         dispatch({
-            type: FETCH_SEARCH_ERROR
+            type: FETCH_PORTFOLIOSEARCH_ERROR
         })
     }
 }
+
+export default getPortfolioSearchResult

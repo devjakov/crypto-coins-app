@@ -7,7 +7,7 @@ export const getCoinMarketData = (coin, currency, days) => async (dispatch) => {
         type: FETCH_COINDATA_PENDING
     })
     try {
-        const request = axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=${currency}&days=${days}`);
+        const request = axios.get(`${base}/coins/${coin}/market_chart?vs_currency=${currency}&days=${days}`);
         const response = await request;
         const marketData = response.data;
         dispatch({
